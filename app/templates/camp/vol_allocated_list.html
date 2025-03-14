@@ -1,0 +1,56 @@
+
+{% load static %}
+<div class="row">
+    <div class="col-md-12">
+      <div class="card">
+        <div class="card-header">
+            <link rel="stylesheet" href="{% static 'admin/assets/css/bootstrap.min.css' %}" />
+          <h4 class="card-title">Allocated Volunteers List</h4>
+        </div>
+        <div class="card-body">
+          <div class="table-responsive">
+            <table
+              id="basic-datatables"
+              class="display table table-striped table-hover"
+            >
+              <thead>
+                <tr>
+                  <th>volunteer name</th>
+                  <th>Gender</th>
+                  <th>date of birth</th>
+                  <th>Contact</th>
+                  <th>current date</th>
+                </tr>
+              </thead>
+              <tbody>
+                {% for user in allocated_vol %}
+                <tr>
+                  <td>{{user.volunteer.volunteer_name}}</td>
+                  <td>{{user.volunteer.gender}}</td>
+                  <td>{{user.volunteer.date_of_birth}}</td>
+                  <td>{{user.volunteer.contact}}</td>
+                  <td>{{user.curr_date}}</td>
+                  <td>
+                  {% if user.duty_status == "Not Scheduled" %}
+                  <button class="btn btn-primary"><a href="{% url 'ScheduleDuty'  user.camp.id user.volunteer.id %}" style="color: white;text-decoration: none;">Schedule Duty</a></button>
+                  {% else %}
+                   <p>Duty Scheduled</p>
+                  {% endif %}
+                  </td>
+                  <td>
+                    {% if not user.duty_status == "Not Scheduled" %}
+                    <button class="btn btn-primary"><a href="{% url 'ReScheduleDuty'  user.camp.id user.volunteer.id %}" style="color: white;text-decoration: none;">Reschedule Duty</a></button>
+                    {% else %}
+                     <p>Not Scheduled</p>
+                    {% endif %}
+                    </td>
+                </tr>
+                {% endfor %}
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  

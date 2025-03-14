@@ -1,0 +1,64 @@
+{%  extends "admin/admin2.html" %}
+{% block content %}
+            <div class="row">
+              <div class="col-md-12">
+                <div class="card">
+                  <div class="card-header">
+                    <h4 class="card-title">Camp Table</h4>
+                  </div>
+                  <div class="card-body">
+                    <div class="table-responsive">
+                      <table
+                        id="basic-datatables"
+                        class="display table table-striped table-hover"
+                      >
+
+                      <thead>
+                        <tr>
+                          <th>ID</th>
+                          <th>Camp Name</th>
+                          <th>Address</th>
+                          <th>District</th>
+                          <th>City</th>
+                          <th>Panchayath</th>
+                          <th>Thaluk</th>
+                          <th>Email</th>
+                          <th>Contact</th>
+                        </tr>
+                      </thead>
+                          <tfoot>                      
+                              <tr>
+                                  <th>ID</th>
+                                  <th>Camp Name</th>
+                                  <th>Address</th>
+                                  <th>District</th>
+                                  <th>City</th>
+                                  <th>Panchayath</th>
+                                  <th>Thaluk</th>
+                                  <th>Email</th>
+                                  <th>Contact</th>
+                                </tr>
+                          </tfoot>
+                          <tbody>
+                            {% for camp in camps %}
+                            <tr>
+                              <td>{{camp.id}}</td>
+                              <td>{{camp.full_address}}</td>
+                              <td>{{camp.camp_name}}</td>
+                              <td>{{camp.district}}</td>
+                              <td>{{camp.city}}</td>
+                              <td>{{camp.panchayath}}</td>
+                              <td>{{camp.thaluk}}</td>
+                              <td>{{camp.login_id.email}}</td>
+                              <td>{{camp.contact}}</td>
+                            </tr>
+                            {% endfor %}
+                          </tbody>
+                      </table>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              </div>              
+            </div>
+{% endblock %}

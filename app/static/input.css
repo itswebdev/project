@@ -1,1 +1,48 @@
 @import "tailwindcss";
+
+
+@import url('https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap');
+
+@import url('https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap');
+
+
+/* Define your custom theme variables */
+@theme {
+  /* Custom Colors */
+  --color-bookmark-purple: #5267DF;
+  --color-bookmark-red:    #FA5959;
+  --color-bookmark-blue:   #242A45;
+  --color-bookmark-grey:   #9194A2;
+  --color-bookmark-white:  #f7f7f7;
+
+  /* Custom Font Family */
+  --font-Poppins: "Poppins", sans-serif;
+  --font-Inter: "Inter", sans-serif;
+}
+
+@layer components {
+  .custom-input {
+    @apply block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none focus:outline-none focus:ring-0 focus:border-blue-600;
+  }
+
+  .custom-label {
+    @apply absolute text-sm text-gray-500 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:text-blue-600 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6 peer-focus:font-medium;
+  }
+}
+
+
+/* Create a custom container utility */
+@utility container {
+  margin-left: auto;
+  margin-right: auto;
+  padding-left: 1rem;
+  padding-right: 1rem;
+}
+
+/* If you want to set a maximum width for the container on larger screens,
+   add a media query for your breakpoints (here, using 1124px for lg, xl, and 2xl) */
+@media (min-width: 1124px) {
+  .container {
+    max-width: 1124px;
+  }
+}

@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <title>Complaint</title>
+  </head>
+  <body>
+    <form method="post">
+      {% csrf_token %}
+      <div>
+        <h2>Subject : {{complaint.complaint_sub}}</h2>
+        <p>{{complaint.complaint}}</p>
+        <p>{{form.reply}}</p>
+      </div>
+      <button type="submit">Submit</button>
+    </form>
+  </body>
+</html>

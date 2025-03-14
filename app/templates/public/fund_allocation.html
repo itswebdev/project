@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <title>Fund Allocation Request</title>
+    <style>
+      body {
+        margin: 0;
+      }
+      h1 {
+        text-align: center;
+        margin-top: 60px;
+      }
+      .form-container {
+        display: grid;
+        grid-template-columns: 1fr 2fr;
+
+        max-width: 400px;
+        margin: 0 auto;
+      }
+      .form-container button {
+        grid-column: span 2;
+      }
+      button {
+        margin-right: 40px;
+      }
+    </style>
+  </head>
+  <body>
+    <h1>Registration</h1>
+    <form method="post" enctype="multipart/form-data">
+      {% csrf_token %}
+      <div class="form-container">
+        {{form.as_p}}
+        <button type="submit">Register</button>
+      </div>
+    </form>
+    {% if messages %}
+    <ul>
+      {% for message in messages %}
+      <li>{{ message }}</li>
+      {% endfor %}
+    </ul>
+    {% endif %}
+  </body>
+</html>

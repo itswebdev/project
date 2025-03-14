@@ -1,0 +1,39 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Search</title>
+    <link rel="stylesheet" href="{% static 'admin/assets/css/bootstrap.min.css' %}" />
+  </head>
+  <body>
+    <form method="post">
+        {% csrf_token %}
+      Seach Camp : <input name="search" type="text" />
+      <button type="submit">Search</button>
+    </form>
+    {% if camps %} 
+    <table  class="display table table-striped table-hover">
+    <tr>
+      <th>Camp Name</th>
+      <th>Address</th>
+      <th>District</th>
+      <th>City</th>
+      <th>Panchayath</th>
+      <th>Thaluk</th>
+      <th>Contact</th>
+    </tr>
+    {% for camp in camps %}
+    <tr>
+      <td>{{camp.camp_name}}</td>
+      <td>{{camp.full_address}}</td>
+      <td>{{camp.district}}</td>
+      <td>{{camp.city}}</td>
+      <td>{{camp.panchayath}}</td>
+      <td>{{camp.thaluk}}</td>
+      <td>{{camp.contact}}</td>
+    </tr>
+    {% endfor %} {% endif %}
+  </body>
+</html>

@@ -1,0 +1,33 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="{% static 'admin/assets/css/bootstrap.min.css' %}" />
+</head>
+<body>
+    <table class="display table table-striped table-hover">
+        <tr>
+            <th>Photo</th>
+            <th>Name</th>
+            <th>Address</th>
+            <th>Gender</th>
+            <th>Age</th>
+            <th>Other Details</th>
+        </tr>
+        {% for report in reports %}
+        <tr>
+            <td><img src="{{ report.photo.url }}" style="height: 130px;width: 140px;" ></td>
+            <td>{{report.name}}</td>
+            <td>{{report.address}}</td>
+            <td>{{report.gender}}</td>
+            <td>{{report.age}}</td>
+            <td>{{report.other_details}}</td>
+        </tr>
+        {% endfor %}
+    </table>
+    
+</body>
+</html>

@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <title>Profile</title>
+  </head>
+  <body>
+    <style>
+      body {
+        margin: 0;
+      }
+      h1 {
+        text-align: center;
+        margin-top: 60px;
+      }
+      .form-container {
+        display: grid;
+        grid-template-columns: 1fr 2fr;
+        gap: 20px;
+        max-width: 400px;
+        margin: 0 auto;
+      }
+      .form-container button {
+        grid-column: span 2;
+      }
+      button {
+        margin-right: 40px;
+      }
+    </style>
+    <h1>Profile Updation</h1>
+    <form method="post">
+      {% csrf_token %}
+      <div class="form-container">
+        <div>{{ form.as_p }}</div>
+        <div>{{ login.as_p }}</div>
+        <button type="submit">Save Changes</button>
+      </div>
+    </form>
+    {% if messages %}
+    <ul>
+      {% for message in messages %}
+      <li>{{ message }}</li>
+      {% endfor %}
+    </ul>
+    {% endif %}
+  </body>
+</html>

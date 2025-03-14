@@ -1,0 +1,42 @@
+            {% load static %}
+            
+                    <!DOCTYPE html>
+                    <html lang="en">
+                    <head>
+                      <meta charset="UTF-8">
+                      <meta name="viewport" content="width=device-width, initial-scale=1.0">
+                      <link rel="stylesheet" href="{% static 'admin/assets/css/bootstrap.min.css' %}" />
+                      <title>Document</title>
+                      <style>
+                        body{
+                            margin: 10px;
+                        
+                        }
+                      </style>
+                    </head>
+                    <body>
+                    <h1 class="card-title">Emergency Alert</h1>
+                      <table border="1"
+                        id="basic-datatables"
+                        class="display table table-striped table-hover">
+                      <thead>
+                        <tr>
+                          <th>Camp Name</th>
+                          <th>Message</th>
+                          <th>Date</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                            {% for alert in alerts %}
+                            <tr>
+                              <td>{{alert.login_id.camp_name}}</td>
+                              <td>{{alert.emergency_message}}</td>
+                              <td>{{alert.current_date}}</td>
+                              <td><button class="btn btn-danger" ><a href="{% url 'DeleteAlert' alert.id %}" style="color: white;text-decoration: none;">Delete</a></button></td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                      </table>
+                    </body>
+                    </html>
+                    

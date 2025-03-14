@@ -1,0 +1,234 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta content="width=device-width, initial-scale=1.0" name="viewport" />
+    <title>Camp</title>
+    <meta name="description" content="" />
+    <meta name="keywords" content="" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css" integrity="sha512-Evv84Mr4kqVGRNSgIGL/F/aIDqQb7xQ2vcrdIwxfjThSH8CSR7PBEakCr51Ck+w+/U6swU2Im1vVX0SVk9ABhg==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link href="{% static "output.css" %}" rel="stylesheet">
+
+  </head>
+
+
+  <body class="font-Poppins min-h-full">
+
+   <!-- header -->
+   <header class="relative">
+    <nav class="container flex items-center py-4 relative">
+      <!-- Logo -->
+      <img id="navLogo" class="w-[50px] transition-all duration-300" src="{% static 'logo.png' %}" alt="Logo">
+      <div class="py-1">
+        <h2 class="text-2xl font-Inter font-extrabold text-blue-800">Camp</h2>
+      </div>
+
+      <!-- Desktop Navigation (visible on sm and up) -->
+      <ul class="hidden sm:flex flex-1 justify-end items-center gap-12 text-bookmark-blue uppercase text-xs md:text-[16px]">
+        <li class="cursor-pointer">
+          <a href="{% url 'CampHome' %}">Home</a>
+        </li>
+        <li class="cursor-pointer">
+          <a href="{% url 'EditCamp' %}">Profile</a>
+        </li>
+        <li>
+          <a href="{% url 'Logout' %}">
+            <button class="cursor-pointer bg-gradient-to-r from-blue-700 to-blue-900 rounded-md px-4 py-2 text-bookmark-white">
+              Logout
+            </button>
+          </a>
+        </li>
+      </ul>
+
+      <!-- Mobile Toggle Icon (visible only on mobile) -->
+      <div id="mobileToggle" class="flex sm:hidden flex-1 justify-end cursor-pointer z-50">
+        <i class="text-2xl fas fa-bars"></i>
+      </div>
+    </nav>
+  </header>
+
+  <!-- Mobile Navigation Drawer -->
+  <!-- 
+    The mobile menu is fixed with a top offset (here, top-16, adjust as needed to match your header height)
+    It starts with max-h-0 (hidden) and expands to max-h-96 when toggled.
+  -->
+  <div id="mobileMenu"
+       class="sm:hidden fixed top-16 left-0 right-0 bg-white overflow-hidden transition-all duration-300 max-h-0 z-40">
+    <ul class="flex flex-col items-center gap-4 p-4">
+      <li>
+        <a href="{% url 'CampHome' %}" class="block py-2">Home</a>
+      </li>
+      <li>
+        <a href="{% url 'EditCamp' %}" class="block py-2">Profile</a>
+      </li>
+      <li>
+        <a href="{% url 'Logout' %}" class="block py-2">Logout</a>
+      </li>
+    </ul>
+  </div>
+
+
+{% block content %}
+
+
+      <!-- Hero -->
+    <section class="relative">
+      <div class="container flex items-center gap-12 mt-4 lg:mt-2">
+
+        <!-- Image -->
+        <div class="flex justify-center flex-1 md:mb-16 lg:mb-0">
+          <img class="sm:w-3/4 sm:h-3/4 md:w-full md:h-full" src="{% static "camp-hero.png" %}" alt="" />
+        </div>
+
+        <!-- Content -->
+        <div class="flex flex-1 flex-col items-center lg:items-start">
+          <h2 class="text-bookmark-blue text-3xl md:text-4 lg:text-5xl text-center lg:text-left mb-6">
+            Camp Management System
+          </h2>
+          <p class="text-bookmark-grey text-lg text-center lg:text-left mb-6">
+            A clean and simple interface to organize your Camp.Perform all the tasks related to camp management with ease.
+          </p>
+        </div>
+      </div>
+      
+    </section>
+
+
+    <!-- main -->
+    <main class="relative container grid grid-cols-2 mb-12 md:grid-cols-3 gap-4">
+   
+      <div class="flex flex-col items-center gap-4 py-6 px-6 rounded-md shadow-md  border">
+        <div class="w-full flex justify-center items-center gap-4">
+          <img class="w-2/6"  src="{% static "folder.svg" %}" alt="IMG">
+          <h3 class="text-center">View Requested Needs</h3>
+        </div>
+        <a class="w-full" href="{% url "NeedsViewTable" %}">
+          <button class="cursor-pointer bg-gradient-to-r from-blue-700 to-blue-900 w-full py-3 text-xl rounded-md text-bookmark-white">Click</button>
+        </a>
+      </div>
+
+      <div class="flex flex-col items-center gap-4 py-6 px-6 rounded-md shadow-md  border">
+        <div class="w-full flex justify-center items-center gap-4">
+          <img class="w-2/6"  src="{% static "request-needs2.svg" %}" alt="IMG">
+          <h3 class="text-center">Request Needs</h3>
+        </div>
+        <a class="w-full mt-4 sm:mt-0" href="{% url "CampNeedsSubmit" %}">
+          <button class="cursor-pointer bg-gradient-to-r from-blue-700 to-blue-900 w-full py-3 text-xl rounded-md text-bookmark-white">Click</button>
+        </a>
+      </div>
+
+      <div class="flex flex-col items-center gap-4 py-6 px-6 rounded-md shadow-md  border">
+        <div class="w-full flex justify-center items-center gap-4">
+          <img class="w-2/6"  src="{% static "camp-user-reg.svg" %}" alt="IMG">
+          <h3 class="text-center">Add Camp Members</h3>
+        </div>
+        <a class="w-full" href="{% url "CampAddUser" %}">
+          <button class="cursor-pointer bg-gradient-to-r from-blue-700 to-blue-900 w-full py-3 text-xl rounded-md text-bookmark-white">Click</button>
+        </a>
+      </div>
+
+      <div class="flex flex-col items-center gap-4 py-6 px-6 rounded-md shadow-md  border">
+        <div class="w-full flex justify-center items-center gap-4">
+          <img class="w-2/6"  src="{% static "peoples.svg" %}" alt="IMG">
+          <h3 class="text-center">View Members</h3>
+        </div>
+        <a class="w-full" href="{% url "CampUsersView" %}">
+          <button class="cursor-pointer bg-gradient-to-r from-blue-700 to-blue-900 w-full py-3 text-xl rounded-md text-bookmark-white">Click</button>
+        </a>
+      </div>
+
+      <div class="flex flex-col items-center gap-4 py-6 px-6 rounded-md shadow-md  border">
+        <div class="w-full flex justify-center items-center gap-4">
+          <img class="w-2/6"  src="{% static "search.svg" %}" alt="IMG">
+          <h3 class="text-center">Search Members</h3>
+        </div>
+        <a class="w-full" href="{% url "SearchCampPerson" %}">
+          <button class="cursor-pointer bg-gradient-to-r from-blue-700 to-blue-900 w-full py-3 text-xl rounded-md text-bookmark-white">Click</button>
+        </a>
+      </div>
+
+      <div class="flex flex-col items-center gap-4 py-6 px-6 rounded-md shadow-md  border">
+        <div class="w-full flex justify-center items-center gap-4">
+          <img class="w-2/6"  src="{% static "alerts.svg" %}" alt="IMG">
+          <h3 class="text-center">Send Camp Alers</h3>
+        </div>
+        <a class="w-full" href="{% url "CampAlerts" %}">
+          <button class="cursor-pointer bg-gradient-to-r from-blue-700 to-blue-900 w-full py-3 text-xl rounded-md text-bookmark-white">Click</button>
+        </a>
+      </div>
+
+      <div class="flex flex-col items-center gap-4 py-6 px-6 rounded-md shadow-md  border">
+        <div class="w-full flex justify-center items-center gap-4">
+          <img class="w-2/6"  src="{% static "view-alerts.svg" %}" alt="IMG">
+          <h3 class="text-center">View Camp Alers</h3>
+        </div>
+        <a class="w-full" href="{% url "AlertCampTable" %}">
+          <button class="cursor-pointer bg-gradient-to-r from-blue-700 to-blue-900 w-full py-3 text-xl rounded-md text-bookmark-white">Click</button>
+        </a>
+      </div>
+
+      <div class="flex flex-col items-center gap-4 py-6 px-6 rounded-md shadow-md  border">
+        <div class="w-full flex justify-center items-center gap-4">
+          <img class="w-2/6"  src="{% static "request-vol.svg" %}" alt="IMG">
+          <h3 class="text-center">Volunteer Request</h3>
+        </div>
+        <a class="w-full" href="{% url "VolunteerReq" %}">
+          <button class="cursor-pointer bg-gradient-to-r from-blue-700 to-blue-900 w-full py-3 text-xl rounded-md text-bookmark-white">Click</button>
+        </a>
+      </div>
+
+      <div class="flex flex-col items-center gap-4 py-6 px-6 rounded-md shadow-md  border">
+        <div class="w-full flex justify-center items-center gap-4">
+          <img class="w-2/6"  src="{% static "view-vol-req.svg" %}" alt="IMG">
+          <h3 class="text-center">View Volunteer Request</h3>
+        </div>
+        <a class="w-full" href="{% url "ReqVolunteerTable" %}">
+          <button class="cursor-pointer bg-gradient-to-r from-blue-700 to-blue-900 w-full py-3 text-xl rounded-md text-bookmark-white">Click</button>
+        </a>
+      </div>
+    </main>
+
+
+{% endblock %}
+
+    <!-- footer  -->
+    <footer class="relative bg-gradient-to-r from-blue-700 to-blue-900 mt-10 h-full w-full py-5 ">
+      <div class="container flex flex-col items-center md:flex-row md:justify-center md:items-center">
+        <div class="flex flex-1 flex-wrap items-center justify-center md:justify-start  gap-12">
+          <img src="./imgs/logo-bookmark-white.png" alt="" />
+          <ul class="flex text-white uppercase gap-12 ">
+            <li class="cursor-pointer text-xs md:text-[16px]">Features</li>
+            <li class="cursor-pointer text-xs md:text-[16px]">Pricing</li>
+            <li class="cursor-pointer text-xs md:text-[16px]">Contact</li>
+          </ul>
+        </div>
+          <ul class="flex gap-10 mt-12 md:mt-0">
+          <li><i class="text-white text-4xl fab fa-instagram"></i></li>
+          <li><i class="text-white text-4xl fab fa-twitter"></i></li>
+          <li><i class="text-white text-4xl fab fa-x"></i></li>
+          <li><i class="text-white text-4xl fab fa-facebook-square"></i></li>
+        </ul>
+      </div>
+    </footer>
+
+    <!-- JavaScript to toggle the mobile menu and logo visibility -->
+    <script>
+      const mobileToggle = document.getElementById('mobileToggle');
+      const mobileMenu = document.getElementById('mobileMenu');
+
+      mobileToggle.addEventListener('click', () => {
+        // If the mobile menu is closed, expand it; if open, collapse it.
+        if (mobileMenu.classList.contains('max-h-0')) {
+          mobileMenu.classList.remove('max-h-0');
+          mobileMenu.classList.add('max-h-96');
+        } else {
+          mobileMenu.classList.remove('max-h-96');
+          mobileMenu.classList.add('max-h-0');
+        }
+      });
+    </script>
+
+  </body>
+</html>

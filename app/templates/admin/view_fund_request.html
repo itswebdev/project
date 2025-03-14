@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>View Request</title>
+  </head>
+  <body>
+    <h3>Request Details</h3>
+    <div>
+      <img
+        src="{{view.image.url}}"
+        alt="Image"
+        style="width: 300px;"
+      />
+      <ul>
+        <li>ID: {{view.id}}</li>
+        <li>Full Name: {{view.full_name}}</li>
+        <li>Full Address: {{view.full_address}}</li>
+        <li>District: {{view.district}}</li>
+        <li>City: {{view.city}}</li>
+        <li>Panchayath: {{view.panchayath}}</li>
+        <li>Ration Card No: {{view.ration_card_no}}</li>
+        <li>Contact: {{view.contact}}</li>
+        <li>Other Details: {{view.other_details}}</li>
+        <li>Date: {{view.current_date}}</li>
+      </ul>
+      {% if view.status == 0 %}
+      <button type="submit"><a href="{% url "AllocateFund" view.id %}">Allocate Fund</a></button>
+      {% else %}
+      <div>Fund Allocated</div>
+      {% endif %}
+      
+  </body>
+</html>

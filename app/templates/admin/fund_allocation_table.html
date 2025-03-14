@@ -1,0 +1,75 @@
+{%  extends "admin/admin2.html" %}
+{% block content %}
+            <div class="row">
+              <div class="col-md-12">
+                <div class="card">
+                  <div class="card-header">
+                    <h4 class="card-title">Fund Request Table</h4>
+                  </div>
+                  <div class="card-body">
+                    <div class="table-responsive">
+                      <table
+                        id="basic-datatables"
+                        class="display table table-striped table-hover"
+                      >
+
+                      <thead>
+                        <tr>
+                          <th>ID</th>
+                          <th>Image</th>
+                          <th>Full Name</th>
+                          <th>Full Address</th>
+                          <th>District</th>
+                          <th>City</th>
+                          <th>Panchayath</th>
+                          <th>Date</th>
+                          <th>Status</th>
+
+                        </tr>
+                      </thead>
+                          <tfoot>                      
+                            <tr>
+                                <th>ID</th>
+                                <th>Image</th>
+                                <th>Full Name</th>
+                                <th>Full Address</th>
+                                <th>District</th>
+                                <th>City</th>
+                                <th>Panchayath</th>
+                                <th>Date</th>
+                                <th>Status</th>
+                              </tr>
+                          </tfoot>
+                          <tbody>
+                            {% for request in requests %}
+                            <tr>
+                              <td>{{request.id}}</td>
+                              <td>
+                                <img
+                                  style="width: 200px"
+                                  src="{{request.image.url}}"
+                                />
+                              </td>
+                              <td>{{request.full_name}}</td>
+                              <td>{{request.full_address}}</td>
+                              <td>{{request.district}}</td>
+                              <td>{{request.city}}</td>
+                              <td>{{request.panchayath}}</td>
+                              <td>{{request.current_date}}</td>
+                              {% if request.status == 1 %}
+                              <td style="color: green;">Fund Allocated</td>
+                              {% else %}
+                              <td style="color: red;">Not Allocated</td>
+                              {% endif %}
+                              <td><button class="btn btn-primary"><a href="{% url "ViewFundAllocationRequest" request.id %}"  style="color: white;text-decoration: none;">View  Request</a></button></td>
+                            </tr>
+                            {% endfor %}
+                          </tbody>
+                      </table>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              </div>              
+            </div>
+{% endblock %}

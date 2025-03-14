@@ -1,0 +1,53 @@
+{%  extends "admin/admin2.html" %}
+{% block content %}
+            <div class="row">
+              <div class="col-md-12">
+                <div class="card">
+                  <div class="card-header">
+                    <h4 class="card-title">Camp Table</h4>
+                  </div>
+                  <div class="card-body">
+                    <div class="table-responsive">
+                      <table
+                        id="basic-datatables"
+                        class="display table table-striped table-hover"
+                      >
+
+                      <thead>
+                        <tr>
+                          <th>ID</th>
+                          <th>User Name</th>
+                          <th>Complaint Sub</th>
+                          <th>Complaint</th>
+                          <th>Date</th>
+                        </tr>
+                      </thead>
+                          <tfoot>                      
+                              <tr>
+                                <th>ID</th>
+                                <th>User Name</th>
+                                <th>Complaint Sub</th>
+                                <th>Complaint</th>
+                                <th>Date</th>
+                                </tr>
+                          </tfoot>
+                          <tbody>
+                            {% for complaint in complaints %}
+                            <tr>
+                              <td>{{complaint.id}}</td>
+                              <td>{{complaint.login_id.email}}</td>
+                              <td>{{complaint.complaint_sub}}</td>
+                              <td>{{complaint.complaint}}</td>
+                              <td>{{complaint.current_date}}</td>
+                              <td><button class="btn btn-primary"><a href="{% url 'ComplaintReply' complaint.id %}"  style="color: white;text-decoration: none;">Reply</a></button></td>
+                            </tr>
+                            {% endfor %}
+                          </tbody>
+                      </table>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              </div>              
+            </div>
+{% endblock %}

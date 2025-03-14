@@ -1,0 +1,43 @@
+{%  extends "admin/admin2.html" %}
+{% block content %}
+            <div class="row">
+              <div class="col-md-12">
+                <div class="card">
+                  <div class="card-header">
+                    <h4 class="card-title">Camp Needs</h4>
+                  </div>
+                  <div class="card-body">
+                    <div class="table-responsive">
+                      <table
+                        id="basic-datatables"
+                        class="display table table-striped table-hover"
+                      >
+
+                      <thead>
+                        <tr>
+                          <th>Camps</th>
+                          <th>Needs</th>
+                          <th>Date</th>
+                          <th>Status</th>
+                          <th>Options</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                            {% for need in needs %}
+                            <tr>
+                              <td>{{need.camp_id.camp_name}}</td>
+                              <td>{{need.needs}}</td>
+                              <td>{{need.current_date}}</td>
+                              <td>{{need.status}}</td>
+                              <td><button class="btn btn-primary"><a href="{% url 'SetCampNeedStatus' need.id %}"  style="color: white;text-decoration: none;">Remarks</a></button></td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                      </table>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              </div>              
+            </div>
+{% endblock %}

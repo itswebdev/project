@@ -1,0 +1,126 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css" integrity="sha512-Evv84Mr4kqVGRNSgIGL/F/aIDqQb7xQ2vcrdIwxfjThSH8CSR7PBEakCr51Ck+w+/U6swU2Im1vVX0SVk9ABhg==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+  <title>Camp Needs</title>
+</head>
+
+<body class="bg-gray-100 p-0">
+  <div class="max-w-6xl mx-auto">
+      <!-- header -->
+  <header>
+    <nav class="container flex items-center py-4">
+      <img class="w-[50px]" src="{% static "logo.png" %}" alt="">
+      <div class="py-1">
+        <h2 class="text-2xl font-Inter font-extrabold text-blue-800">Camp</h2>
+      </div>
+
+      <ul class="hidden sm:flex flex-1 justify-end items-center gap-12 text-bookmark-blue upppercase text-xs sm:text-[1rem]">
+        <ul class="cursor-pointer">
+          <a href="{% url "CampHome" %}">Home</a>
+        </ul>
+        <ul class="cursor-pointer">
+          <a href="{% url "EditCamp" %}">Profile</a>
+        </ul>
+        <a href="{% url "Logout" %}"><button class="cursor-pointer bg-gradient-to-r from-blue-700 to-blue-900 rounded-md px-4 py-2 text-white">Logout</button></a>
+      </ul>
+      <div class="flex sm:hidden flex-1 px-5 justify-end cursor-pointer">
+        <i class="text-2xl fas fa-bars"></i>
+      </div>
+    </nav>
+   </header>
+
+
+    <div class="bg-white shadow-md rounded-lg p-6">
+      <div class="flex justify-between items-center mb-4 border-b pb-3">
+        <h4 class="text-xl font-semibold">Camp Needs</h4>
+      </div>
+      <div class="overflow-x-auto">
+        
+        <table class="w-full table-auto border-collapse border border-gray-300">
+          <thead>
+            <tr class="bg-gray-200">
+              <th class="border border-gray-300 px-4 py-2">Camp</th>
+              <th class="border border-gray-300 px-4 py-2">Needs</th>
+              <th class="border border-gray-300 px-4 py-2">Date</th>
+              <th class="border border-gray-300 px-4 py-2">Status</th>
+              <th class="border border-gray-300 px-4 py-2">Actions</th>
+            </tr>
+          </thead>
+          <tbody>
+            {% for need in needs %}
+            <tr class="border border-gray-300">
+              <td class="px-4 py-2">{{ need.camp_id.camp_name }}</td>
+              <td class="px-4 py-2">{{ need.needs }}</td>
+              <td class="px-4 py-2">{{ need.current_date }}</td>
+              <td class="px-4 py-2">{{ need.status }}</td>
+              {% if need.status == "approved" %}
+              <td class="px-4 py-2 text-green-600">Needs approved</td>
+              {% else %}
+              <td class="px-4 py-2">
+                <a href="{% url 'EditCampNeed' need.id %}" class="bg-blue-500 text-white px-3 py-1 rounded hover:bg-blue-600">Edit</a>
+                <button class="bg-red-500 text-white px-3 py-1 rounded hover:bg-red-600" data-user-id="{{ need.id }}" data-modal-toggle="deleteModal">Delete</button>
+              </td>
+              {% endif %}
+            </tr>
+            {% endfor %}
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+
+  <div id="deleteModal" class="fixed inset-0 hidden bg-gray-900 bg-opacity-50 flex items-center justify-center">
+    <div class="bg-white rounded-lg shadow-md p-6 w-96">
+      <h5 class="text-lg font-semibold mb-4">Are you sure you want to delete this need?</h5>
+      <p class="text-gray-600 mb-4">This action cannot be undone.</p>
+      <div class="flex justify-end gap-3">
+        <button id="closeModal" class="bg-gray-500 text-white px-4 py-2 rounded hover:bg-gray-600">No</button>
+        <a href="" id="confirmDeleteBtn" class="bg-red-500 text-white px-4 py-2 rounded hover:bg-red-600">Yes, Delete</a>
+      </div>
+    </div>
+  </div>
+
+  <footer class="absolute bottom-0 bg-gradient-to-r from-blue-700 to-blue-900 mt-10 h-34 w-full py-8 px-8 ">
+    <div class="container flex flex-col md:flex-row items-center">
+      <div class="flex flex-1 flex-wrap items-center justify-center md:justify-start gap-12">
+        <img src="./imgs/logo-bookmark-white.png" alt="" />
+        <ul class="flex text-white uppercase gap-12 text-xs">
+          <li class="cursor-pointer">Features</li>
+          <li class="cursor-pointer">Pricing</li>
+          <li class="cursor-pointer">Contact</li>
+        </ul>
+      </div>
+      <div class="flex gap-10 mt-12 md:mt-0">
+        <li><i class="text-white text-2xl fab fa-instagram"></i></li>
+        <li><i class="text-white text-2xl fab fa-twitter"></i></li>
+        <li><i class="text-white text-2xl fab fa-x"></i></li>
+        <li><i class="text-white text-2xl fab fa-facebook-square"></i></li>
+      </div>
+    </div>
+  </footer>
+
+  <script>
+    $(document).ready(function () {
+      var needIdToDelete;
+      
+      $("button[data-modal-toggle='deleteModal']").on("click", function () {
+        needIdToDelete = $(this).data("user-id");
+        var deleteUrl = "/delete_camp_need/" + needIdToDelete + "/";
+        $("#confirmDeleteBtn").attr("href", deleteUrl);
+        $("#deleteModal").removeClass("hidden");
+      });
+      
+      $("#closeModal").on("click", function () {
+        $("#deleteModal").addClass("hidden");
+      });
+    });
+  </script>
+</body>
+</html>

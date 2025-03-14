@@ -1,0 +1,99 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Notification</title>
+    <link rel="stylesheet" href="{% static 'admin/assets/css/bootstrap.min.css' %}">
+    <style>
+        body {
+            margin: 0;
+            font-family: Arial, sans-serif;
+        }
+        .header {
+            text-align: center;
+            background-color: #15649c;
+            color: white;
+            padding: 30px 0;
+        }
+        .notification-box {
+            border-radius: 20px;
+            color: white;
+            background-color: #2487CE;
+            padding: 20px;
+            width: 50%;
+            margin: 30px auto;
+            box-shadow: 5px 5px 15px rgba(0, 0, 0, 0.2);
+            text-align: center;
+        }
+        .notification-box ul {
+            list-style-type: none;
+            padding: 0;
+        }
+        .notification-box li {
+            margin: 10px 0;
+            font-size: 16px;
+        }
+        .messages ul {
+            list-style: none;
+            padding: 0;
+            text-align: center;
+        }
+        .messages li {
+            font-size: large;
+            font-weight: bold;
+            color: #333;
+        }
+        .duty-section {
+            margin-top: 20px;
+            font-size: 16px;
+            color: white;
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <h1>Notification</h1>
+    </div>
+    <br>
+    {% if messages %}
+    <div class="messages">
+        <ul>
+            {% for message in messages %}
+            <li>{{ message }}</li>
+            {% endfor %}
+        </ul>
+    </div>
+    {% endif %}
+
+    {% if camp %}
+    <div class="notification-box">
+        <ul>
+            <li><b>Camp Name:</b> {{ camp.camp_name }}</li>
+            <li><b>Address:</b> {{ camp.full_address }}</li>
+            <li><b>District:</b> {{ camp.district }}</li>
+            <li><b>City:</b> {{ camp.city }}</li>
+            <li><b>Panchayath:</b> {{ camp.panchayath }}</li>
+            <li><b>Thaluk:</b> {{ camp.thaluk }}</li>
+            <li><b>Contact:</b> {{ camp.contact }}</li>
+        </ul>
+        
+        <h3>Your Duties:</h3>
+        {% if duties %}
+            <ul>
+                {% for duty in duties %}
+                    <li>{{ duty.duty }} (Assigned on {{ duty.curr_date }})</li>
+                {% endfor %}
+            </ul>
+        {% else %}
+            <p>No duties assigned yet.</p>
+        {% endif %}
+    </div>
+    {% else %}
+    <p>You are not assigned to any camp.</p>
+    {% endif %}
+   
+</body>
+</html>

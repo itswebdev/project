@@ -1,0 +1,65 @@
+{% extends "admin/admin2.html" %}
+{% block content %}
+            <div class="row">
+              <div class="col-md-12">
+                <div class="card">
+                  <div class="card-header">
+                    <h4 class="card-title">Station Table</h4>
+                  </div>
+                  <div class="card-body">
+                    <div class="table-responsive">
+                      <table
+                        id="basic-datatables"
+                        class="display table table-striped table-hover"
+                      >
+
+                      <thead>
+                        <tr>
+                          <th>ID</th>
+                          <th>Station ID</th>
+                          <th>Address Line 1</th>
+                          <th>Address Line 2</th>
+                          <th>District</th>
+                          <th>City</th>
+                          <th>Contact</th>
+                          <th>Email</th>
+                        </tr>
+                      </thead>
+                      <tfoot>
+                              <tr>
+                                <th>ID</th>
+                                <th>Station ID</th>
+                                <th>Address Line 1</th>
+                                <th>Address Line 2</th>
+                                <th>District</th>
+                                <th>City</th>
+                                <th>Contact</th>
+                                <th>Email</th>
+                                </tr>
+                          </tfoot>
+                          <tbody>
+                            {% for station in stations %}
+                            <tr>
+                              <td>{{station.id}}</td>
+                              <td>{{station.station_id}}</td>
+                              <td>{{station.address_line_1}}</td>
+                              <td>{{station.address_line_2}}</td>
+                              <td>{{station.district}}</td>
+                              <td>{{station.city}}</td>
+                              <td>{{station.contact}}</td>
+                              <td>{{station.login_id.email}}</td>
+                            </tr>
+                            {% endfor %}
+                          </tbody>
+                      </table>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              </div>              
+            </div>
+  {% endblock %}
+
+        
+
+       

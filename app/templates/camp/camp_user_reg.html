@@ -1,0 +1,177 @@
+{% extends "camp/camp.html" %} {% load static %} {% block content %}
+
+
+<main class="container flex justify-center items-center gap-22 md:mb-32">
+  <div class="hidden md:flex flex-col gap-12 w-[350px]">
+    <h1 class="text-4xl text-right pr-12 text-blue-900 font-bold">Register Camp Person</h1>
+    <img src="{% static 'reg.png' %}" alt="">
+  </div>
+  <form  method="post" enctype="multipart/form-data">
+    <h1 class="sm:hidden text-4xl text-center mb-12 text-blue-900 font-bold">Register Camp Person</h1>
+    {% csrf_token %}
+
+    <div class="relative z-0 w-full mb-5 group">
+      <div class="relative z-0 w-full mb-5 group">
+        <input
+          type="file"
+          name="photo"
+          accept="image/*"
+          required
+          id="id_photo"
+          class="custom-input peer"
+        />
+        <label for="id_photo" class="custom-label">Photo:</label>
+      </div>
+    </div>
+
+    <div class="relative z-0 w-full mb-5 group">
+      <div class="relative z-0 w-full mb-5 group">
+        <input
+          type="text"
+          id="id_full_name"
+          class="custom-input peer"
+          name="full_name"
+          maxlength="100"
+          placeholder=""
+          required
+        />
+        <label for="id_full_name" class="custom-label">Full Name:</label>
+      </div>
+    </div>
+
+    <div class="relative z-0 w-full mb-5 group">
+      <div class="relative z-0 w-full mb-5 group">
+        <input
+          type="text"
+          id="id_address"
+          class="custom-input peer"
+          name="address"
+          maxlength="100"
+          placeholder=""
+          required
+        />
+        <label for="id_address" class="custom-label">Address:</label>
+      </div>
+    </div>
+
+    <div class="relative z-0 w-full mb-5 group">
+      <div class="relative z-0 w-full mb-5 group">
+        <input
+          type="text"
+          id="id_aadhar_no"
+          class="custom-input peer"
+          name="aadhar_no"
+          maxlength="100"
+          placeholder=""
+          required
+        />
+        <label for="id_aadhar_no" class="custom-label">Aadhar No:</label>
+      </div>
+    </div>
+
+    <div class="grid md:grid-cols-2 md:gap-6">
+      <div class="relative z-0 w-full mb-5 group">
+        <div class="relative z-0 w-full mb-5 group">
+          <input
+            type="text"
+            id="id_district"
+            class="custom-input peer"
+            name="district"
+            maxlength="100"
+            placeholder=""
+            required
+          />
+          <label for="id_district" class="custom-label">District:</label>
+        </div>
+      </div>
+
+      <div class="relative z-0 w-full mb-5 group">
+        <div class="relative z-0 w-full mb-5 group">
+          <input
+            type="text"
+            id="id_city"
+            class="custom-input peer"
+            name="city"
+            maxlength="100"
+            placeholder=""
+            required
+          />
+          <label for="id_city" class="custom-label">City:</label>
+        </div>
+      </div>
+    </div>
+
+    <div class="grid md:grid-cols-2 md:gap-6">
+      <div class="relative z-0 w-full mb-5 group">
+        <div class="relative z-0 w-full mb-5 group">
+          <input
+            type="text"
+            id="id_contact_no"
+            class="custom-input peer"
+            name="contact_no"
+            maxlength="100"
+            placeholder=""
+            required
+          />
+          <label for="id_contact_no" class="custom-label">Contact No:</label>
+        </div>
+      </div>
+
+      <div class="relative z-0 w-full mb-5 group">
+        <div class="relative z-0 w-full mb-5 group">
+          <input
+            type="text"
+            id="id_panchayath"
+            class="custom-input peer"
+            name="panchayath"
+            maxlength="100"
+            placeholder=""
+            required
+          />
+          <label for="id_panchayath" class="custom-label">Panchayath:</label>
+        </div>
+      </div>
+    </div>
+
+    <div class="grid md:grid-cols-2 md:gap-6">
+      <div class="relative z-0 w-full mb-5 group">
+        <div class="relative z-0 w-full mb-5 group">
+          <input
+            type="text"
+            id="id_village"
+            class="custom-input peer"
+            name="village"
+            maxlength="100"
+            placeholder=""
+            required
+          />
+          <label for="id_village" class="custom-label">Village:</label>
+        </div>
+      </div>
+
+      <div class="relative z-0 w-full mb-5 group">
+        <div class="relative z-0 w-full mb-5 group">
+          <input
+            type="text"
+            id="id_thaluk"
+            class="custom-input peer"
+            name="thaluk"
+            maxlength="100"
+            placeholder=""
+            required
+          />
+          <label for="id_thaluk" class="custom-label">Thaluk:</label>
+        </div>
+      </div>
+    </div>
+
+    <button
+      type="submit"
+      class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm w-full px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
+    >
+      Submit
+    </button>
+  </form>
+</main>
+
+{% endblock %}
