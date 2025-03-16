@@ -186,9 +186,9 @@ def EditCamp(request):
             messages.success(request,"Profile Updated Successfully")
             return redirect('CampHome')
     else:
-        login=LoginEditForm(instance=user)
-        form=CampForm(instance=camp)
-    return render(request,'common/edit_profile.html',{'form':form,'login':login})
+        l=LoginEditForm(instance=user)
+        c=CampForm(instance=camp)
+    return render(request,'camp/edit_profile.html',{'c':c,'l':l})
 
     
      # station profile editing
@@ -237,17 +237,17 @@ def EditVolunteer(request):
     user=get_object_or_404(Login, id=id)
     volunteer=get_object_or_404(Volunteer, login_id=user)
     if request.method=="POST":
-            login=LoginEditForm(request.POST, instance=user)
-            form=VolunteerForm(request.POST, instance=volunteer)
-            if form.is_valid() and login.is_valid():
-             form.save() 
-             login.save()
-             messages.success(request,"Profile Updated Successfully")
-             return redirect('VolunteerHome')
+        login=LoginEditForm(request.POST, instance=user)
+        form=VolunteerForm(request.POST, instance=volunteer)
+        if form.is_valid() and login.is_valid():
+            form.save() 
+            login.save()
+            messages.success(request,"Profile Updated Successfully")
+            return redirect('VolunteerHome')
     else:
-      login=LoginEditForm(instance=user)
-      form=VolunteerForm(instance=volunteer)
-    return render(request,'common/edit_profile.html',{'form':form,'login':login})
+        l=LoginEditForm(instance=user)
+        v=VolunteerForm(instance=volunteer)
+    return render(request,'volunteer/edit_vol_profile.html',{'v':v,'l':l})
 
     # admin page view 2
 
@@ -366,8 +366,8 @@ def EditCampNeed(request,id):
             messages.success(request,"Updated Successfully")
             return redirect('NeedsViewTable')
     else:
-        form=CampNeedsForm(instance=need)  
-    return render(request,'camp/camp_needs.html',{'form':form})
+        f=CampNeedsForm(instance=need)  
+    return render(request,'camp/camp_edit_needs.html',{'f':f})
 
 def CampNeedsDelete(request,id):
     need=get_object_or_404(CampNeeds,id=id)
@@ -412,9 +412,9 @@ def SearchCampPerson(request):
             Q(village__icontains=query) |
             Q(thaluk__icontains=query) 
             )      
-        return render(request,'common/camp_search_person.html',{'users':users})
+        return render(request,'camp/camp_search_person.html',{'users':users})
     else:
-        return render(request,'common/camp_search_person.html')
+        return render(request,'camp/camp_search_person.html')
     
 def SearchPerson(request):
     if request.method=="POST":

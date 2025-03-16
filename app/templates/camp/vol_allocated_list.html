@@ -1,56 +1,152 @@
-
 {% load static %}
-<div class="row">
-    <div class="col-md-12">
-      <div class="card">
-        <div class="card-header">
-            <link rel="stylesheet" href="{% static 'admin/assets/css/bootstrap.min.css' %}" />
-          <h4 class="card-title">Allocated Volunteers List</h4>
-        </div>
-        <div class="card-body">
-          <div class="table-responsive">
-            <table
-              id="basic-datatables"
-              class="display table table-striped table-hover"
-            >
-              <thead>
-                <tr>
-                  <th>volunteer name</th>
-                  <th>Gender</th>
-                  <th>date of birth</th>
-                  <th>Contact</th>
-                  <th>current date</th>
-                </tr>
-              </thead>
-              <tbody>
-                {% for user in allocated_vol %}
-                <tr>
-                  <td>{{user.volunteer.volunteer_name}}</td>
-                  <td>{{user.volunteer.gender}}</td>
-                  <td>{{user.volunteer.date_of_birth}}</td>
-                  <td>{{user.volunteer.contact}}</td>
-                  <td>{{user.curr_date}}</td>
-                  <td>
-                  {% if user.duty_status == "Not Scheduled" %}
-                  <button class="btn btn-primary"><a href="{% url 'ScheduleDuty'  user.camp.id user.volunteer.id %}" style="color: white;text-decoration: none;">Schedule Duty</a></button>
-                  {% else %}
-                   <p>Duty Scheduled</p>
-                  {% endif %}
-                  </td>
-                  <td>
-                    {% if not user.duty_status == "Not Scheduled" %}
-                    <button class="btn btn-primary"><a href="{% url 'ReScheduleDuty'  user.camp.id user.volunteer.id %}" style="color: white;text-decoration: none;">Reschedule Duty</a></button>
-                    {% else %}
-                     <p>Not Scheduled</p>
-                    {% endif %}
-                    </td>
-                </tr>
-                {% endfor %}
-              </tbody>
-            </table>
-          </div>
-        </div>
+
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta content="width=device-width, initial-scale=1.0" name="viewport" />
+    <title>Camp</title>
+    <meta name="description" content="" />
+    <meta name="keywords" content="" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css" integrity="sha512-Evv84Mr4kqVGRNSgIGL/F/aIDqQb7xQ2vcrdIwxfjThSH8CSR7PBEakCr51Ck+w+/U6swU2Im1vVX0SVk9ABhg==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link href="{% static "output.css" %}" rel="stylesheet">
+
+  </head>
+
+
+  <body class="font-Poppins min-h-full">
+
+   <!-- header -->
+   <header class="relative">
+    <nav class="container flex items-center py-4 relative">
+      <!-- Logo -->
+      <img id="navLogo" class="w-[50px] transition-all duration-300" src="{% static 'logo.png' %}" alt="Logo">
+      <div class="py-1">
+        <h2 class="text-2xl font-Inter font-extrabold text-blue-800">Disaster management System</h2>
       </div>
-    </div>
+
+      <!-- Desktop Navigation (visible on sm and up) -->
+      <ul class="hidden sm:flex flex-1 justify-end items-center gap-12 text-bookmark-blue uppercase text-xs md:text-[16px]">
+        <li class="cursor-pointer">
+          <a href="{% url 'CampHome' %}">Home</a>
+        </li>
+        <li class="cursor-pointer">
+          <a href="{% url 'EditCamp' %}">Profile</a>
+        </li>
+        <li>
+          <a href="{% url 'Logout' %}">
+            <button class="cursor-pointer bg-gradient-to-r from-blue-700 to-blue-900 rounded-md px-4 py-2 text-bookmark-white">
+              Logout
+            </button>
+          </a>
+        </li>
+      </ul>
+
+      <!-- Mobile Toggle Icon (visible only on mobile) -->
+      <div id="mobileToggle" class="flex sm:hidden flex-1 justify-end cursor-pointer z-50">
+        <i class="text-2xl fas fa-bars"></i>
+      </div>
+    </nav>
+  </header>
+
+  <!-- Mobile Navigation Drawer -->
+  <!-- 
+    The mobile menu is fixed with a top offset (here, top-16, adjust as needed to match your header height)
+    It starts with max-h-0 (hidden) and expands to max-h-96 when toggled.
+  -->
+  <div id="mobileMenu"
+       class="sm:hidden fixed top-16 left-0 right-0 bg-white overflow-hidden transition-all duration-300 max-h-0 z-40">
+    <ul class="flex flex-col items-center gap-4 p-4">
+      <li>
+        <a href="{% url 'CampHome' %}" class="block py-2">Home</a>
+      </li>
+      <li>
+        <a href="{% url 'EditCamp' %}" class="block py-2">Profile</a>
+      </li>
+      <li>
+        <a href="{% url 'Logout' %}" class="block py-2">Logout</a>
+      </li>
+    </ul>
   </div>
-  
+
+<div class="container overflow-x-auto">
+  <table class="min-w-full bg-white border border-gray-300 shadow-md rounded-lg">
+    <thead>
+      <tr class="bg-gray-200">
+        <th class="p-3 border">Volunteer Name</th>
+        <th class="p-3 border">Gender</th>
+        <th class="p-3 border">Date of Birth</th>
+        <th class="p-3 border">Contact</th>
+        <th class="p-3 border">Current Date</th>
+        <th class="p-3 border">Duty Schedule</th>
+        <th class="p-3 border">Reschedule</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for user in allocated_vol %}
+      <tr class="hover:bg-gray-100">
+        <td class="p-3 border">{{ user.volunteer.volunteer_name }}</td>
+        <td class="p-3 border">{{ user.volunteer.gender }}</td>
+        <td class="p-3 border">{{ user.volunteer.date_of_birth }}</td>
+        <td class="p-3 border">{{ user.volunteer.contact }}</td>
+        <td class="p-3 border">{{ user.curr_date }}</td>
+        <td class="p-3 border text-center">
+          {% if user.duty_status == "Not Scheduled" %}
+          <a href="{% url 'ScheduleDuty' user.camp.id user.volunteer.id %}" class="bg-blue-500 text-white px-4 py-2 rounded-md hover:bg-blue-600">Schedule Duty</a>
+          {% else %}
+          <p class="text-green-600 font-semibold">Duty Scheduled</p>
+          {% endif %}
+        </td>
+        <td class="p-3 border text-center">
+          {% if not user.duty_status == "Not Scheduled" %}
+          <a href="{% url 'ReScheduleDuty' user.camp.id user.volunteer.id %}" class="bg-yellow-500 text-white px-4 py-2 rounded-md hover:bg-yellow-600">Reschedule Duty</a>
+          {% else %}
+          <p class="text-red-500 font-semibold">Not Scheduled</p>
+          {% endif %}
+        </td>
+      </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+</div>
+
+
+    <!-- footer  -->
+    <footer class="absolute bottom-0 bg-gradient-to-r from-blue-700 to-blue-900 mt-10  w-full py-5 ">
+      <div class="container flex flex-col items-center md:flex-row md:justify-center md:items-center">
+        <div class="flex flex-1 flex-wrap items-center justify-center md:justify-start  gap-12">
+          <img src="./imgs/logo-bookmark-white.png" alt="" />
+          <ul class="flex text-white uppercase gap-12 ">
+            <li class="cursor-pointer text-xs md:text-[16px]">Features</li>
+            <li class="cursor-pointer text-xs md:text-[16px]">Pricing</li>
+            <li class="cursor-pointer text-xs md:text-[16px]">Contact</li>
+          </ul>
+        </div>
+          <ul class="flex gap-10 mt-12 md:mt-0">
+          <li><i class="text-white text-4xl fab fa-instagram"></i></li>
+          <li><i class="text-white text-4xl fab fa-twitter"></i></li>
+          <li><i class="text-white text-4xl fab fa-x"></i></li>
+          <li><i class="text-white text-4xl fab fa-facebook-square"></i></li>
+        </ul>
+      </div>
+    </footer>
+
+    <!-- JavaScript to toggle the mobile menu and logo visibility -->
+    <script>
+      const mobileToggle = document.getElementById('mobileToggle');
+      const mobileMenu = document.getElementById('mobileMenu');
+
+      mobileToggle.addEventListener('click', () => {
+        // If the mobile menu is closed, expand it; if open, collapse it.
+        if (mobileMenu.classList.contains('max-h-0')) {
+          mobileMenu.classList.remove('max-h-0');
+          mobileMenu.classList.add('max-h-96');
+        } else {
+          mobileMenu.classList.remove('max-h-96');
+          mobileMenu.classList.add('max-h-0');
+        }
+      });
+    </script>
+
+  </body>
+</html>

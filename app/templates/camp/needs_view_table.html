@@ -63,9 +63,11 @@
               {% if need.status == "approved" %}
               <td class="px-4 py-2 text-green-600">Needs approved</td>
               {% else %}
-              <td class="px-4 py-2">
+              <td class="flex justify-around px-4 py-2">
                 <a href="{% url 'EditCampNeed' need.id %}" class="bg-blue-500 text-white px-3 py-1 rounded hover:bg-blue-600">Edit</a>
+
                 <button class="bg-red-500 text-white px-3 py-1 rounded hover:bg-red-600" data-user-id="{{ need.id }}" data-modal-toggle="deleteModal">Delete</button>
+                
               </td>
               {% endif %}
             </tr>
@@ -87,22 +89,23 @@
     </div>
   </div>
 
-  <footer class="absolute bottom-0 bg-gradient-to-r from-blue-700 to-blue-900 mt-10 h-34 w-full py-8 px-8 ">
-    <div class="container flex flex-col md:flex-row items-center">
-      <div class="flex flex-1 flex-wrap items-center justify-center md:justify-start gap-12">
+  <!-- footer  -->
+  <footer class="absolute bottom-0 bg-gradient-to-r from-blue-700 to-blue-900 mt-10 h-40  md:h-24 w-full py-8 px-4 ">
+    <div class="container flex flex-col items-center md:flex-row md:justify-center md:items-center">
+      <div class="flex flex-1 flex-wrap items-center justify-center md:justify-start  gap-12">
         <img src="./imgs/logo-bookmark-white.png" alt="" />
-        <ul class="flex text-white uppercase gap-12 text-xs">
-          <li class="cursor-pointer">Features</li>
-          <li class="cursor-pointer">Pricing</li>
-          <li class="cursor-pointer">Contact</li>
+        <ul class="flex text-white uppercase gap-12 ">
+          <li class="cursor-pointer text-xs md:text-[16px]">Features</li>
+          <li class="cursor-pointer text-xs md:text-[16px]">Pricing</li>
+          <li class="cursor-pointer text-xs md:text-[16px]">Contact</li>
         </ul>
       </div>
-      <div class="flex gap-10 mt-12 md:mt-0">
-        <li><i class="text-white text-2xl fab fa-instagram"></i></li>
-        <li><i class="text-white text-2xl fab fa-twitter"></i></li>
-        <li><i class="text-white text-2xl fab fa-x"></i></li>
-        <li><i class="text-white text-2xl fab fa-facebook-square"></i></li>
-      </div>
+        <ul class="flex gap-10 mt-12 pb-6 md:pb-0 md:mt-0">
+        <li><i class="text-white text-4xl fab fa-instagram"></i></li>
+        <li><i class="text-white text-4xl fab fa-twitter"></i></li>
+        <li><i class="text-white text-4xl fab fa-x"></i></li>
+        <li><i class="text-white text-4xl fab fa-facebook-square"></i></li>
+      </ul>
     </div>
   </footer>
 

@@ -22,16 +22,16 @@
       <!-- Logo -->
       <img id="navLogo" class="w-[50px] transition-all duration-300" src="{% static 'logo.png' %}" alt="Logo">
       <div class="py-1">
-        <h2 class="text-2xl font-Inter font-extrabold text-blue-800">Disaster management System</h2>
+        <h2 class="text-2xl font-Inter font-extrabold text-blue-800">Camp</h2>
       </div>
 
       <!-- Desktop Navigation (visible on sm and up) -->
       <ul class="hidden sm:flex flex-1 justify-end items-center gap-12 text-bookmark-blue uppercase text-xs md:text-[16px]">
         <li class="cursor-pointer">
-          <a href="{% url 'VolunteerHome' %}">Home</a>
+          <a href="{% url 'CampHome' %}">Home</a>
         </li>
         <li class="cursor-pointer">
-          <a href="{% url 'EditVolunteer' %}">Profile</a>
+          <a href="{% url 'EditCamp' %}">Profile</a>
         </li>
         <li>
           <a href="{% url 'Logout' %}">
@@ -61,7 +61,7 @@
         <a href="{% url 'CampHome' %}" class="block py-2">Home</a>
       </li>
       <li>
-        <a href="{% url 'EditVolunteer' %}" class="block py-2">Profile</a>
+        <a href="{% url 'EditCamp' %}" class="block py-2">Profile</a>
       </li>
       <li>
         <a href="{% url 'Logout' %}" class="block py-2">Logout</a>
@@ -70,59 +70,73 @@
   </div>
 
 
-{% block content %}
-
-
-      <!-- Hero -->
-    <section class="relative">
-      <div class="container flex items-center gap-12 mt-4 lg:mt-2">
-
-        <!-- Image -->
-        <div class="flex justify-center flex-1 md:mb-16 lg:mb-0">
-          <img class="sm:w-3/4 sm:h-3/4 md:w-full md:h-full" src="{% static "camp-hero.png" %}" alt="" />
+<div class="container w-full mb-12">
+    <form method="post" class="flex flex-col justify-center items-center">
+        {% csrf_token %}
+        <div class="relative w-3/4 z-0  mb-5 group">
+          <input
+            type="text"
+            id="id_full_name"
+            class="custom-input peer"
+            name="search"
+            maxlength="100"
+            placeholder=""
+            required
+          />
+          <label for="id_full_name" class="custom-label">Search camp person :</label>
         </div>
 
-        <!-- Content -->
-        <div class="flex flex-1 flex-col items-center lg:items-start">
-          <h2 class="text-bookmark-blue text-3xl md:text-4 lg:text-5xl text-center lg:text-left mb-6">
-            Volunteer
-          </h2>
-          <p class="text-bookmark-grey text-lg text-center lg:text-left mb-6">
-            A clean and simple interface to organize your Volunteer Profile.Perform all the tasks related to Volunteer with ease.
-          </p>
-        </div>
-      </div>
-      
-    </section>
-    <!-- main -->
-    <main class="relative container grid grid-cols-2 mb-12 gap-4">
-   
-      <div class="flex flex-col items-center gap-4 py-6 px-6 rounded-md shadow-md  border">
-        <div class="w-full flex justify-center items-center gap-4">
-          <img class="w-2/6"  src="{% static "request-vol.svg" %}" alt="IMG">
-          <h3 class="text-center">Edit Profile</h3>
-        </div>
-        <a class="w-full" href="{% url 'EditVolunteer' %}">
-          <button class="cursor-pointer bg-gradient-to-r from-blue-700 to-blue-900 w-full py-3 text-xl rounded-md text-bookmark-white">Click</button>
-        </a>
-      </div>
+      <button
+      type="submit"
+      class="w-3/6 text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
+    >
+      Submit
+    </button>
 
-      <div class="flex flex-col items-center gap-4 py-6 px-6 rounded-md shadow-md  border">
-        <div class="w-full flex justify-center items-center gap-4">
-          <img class="w-2/6"  src="{% static "view-alerts.svg" %}" alt="IMG">
-          <h3 class="text-center">Notifications</h3>
-        </div>
-        <a class="w-full mt-4 sm:mt-0" href="{% url 'Notification' %}">
-          <button class="cursor-pointer bg-gradient-to-r from-blue-700 to-blue-900 w-full py-3 text-xl rounded-md text-bookmark-white">Click</button>
-        </a>
-      </div>
-    </main>
-
-
-{% endblock %}
+    </form>
+  </div>
+    {% if users %} 
+    <div class="container overflow-x-auto">
+      <table class="display table table-striped table-hover bg-white border border-gray-300 shadow-md rounded-lg">
+        <thead class="bg-gray-200">
+          <tr>
+            <th class="p-3 border">Photo</th>
+            <th class="p-3 border">Full Name</th>
+            <th class="p-3 border">Address</th>
+            <th class="p-3 border">District</th>
+            <th class="p-3 border">City</th>
+            <th class="p-3 border">Contact No</th>
+            <th class="p-3 border">Aadhar No</th>
+            <th class="p-3 border">Panchayath</th>
+            <th class="p-3 border">Village</th>
+            <th class="p-3 border">Thaluk</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for user in users %}
+          <tr class="hover:bg-gray-100">
+            <td class="p-3 border text-center">
+              <img class="w-32 h-32 object-cover rounded-md" src="{{ user.photo.url }}" alt="User Photo" />
+            </td>
+            <td class="p-3 border">{{ user.full_name }}</td>
+            <td class="p-3 border">{{ user.address }}</td>
+            <td class="p-3 border">{{ user.district }}</td>
+            <td class="p-3 border">{{ user.city }}</td>
+            <td class="p-3 border">{{ user.contact_no }}</td>
+            <td class="p-3 border">{{ user.aadhar_no }}</td>
+            <td class="p-3 border">{{ user.panchayath }}</td>
+            <td class="p-3 border">{{ user.village }}</td>
+            <td class="p-3 border">{{ user.thaluk }}</td>
+          </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+    {% endif %}
+    
 
     <!-- footer  -->
-    <footer class="relative bg-gradient-to-r from-blue-700 to-blue-900 mt-10 h-full w-full py-5 ">
+    <footer class="absolute bottom-0 bg-gradient-to-r from-blue-700 to-blue-900 mt-10  w-full py-5 ">
       <div class="container flex flex-col items-center md:flex-row md:justify-center md:items-center">
         <div class="flex flex-1 flex-wrap items-center justify-center md:justify-start  gap-12">
           <img src="./imgs/logo-bookmark-white.png" alt="" />
