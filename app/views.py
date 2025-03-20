@@ -206,9 +206,9 @@ def EditStation(request):
              messages.success(request,"Profile Updated Successfully")
              return redirect('StationHome')
     else:
-      login=LoginEditForm(instance=user)
-      form=PoliceForm(instance=station)
-    return render(request,'common/edit_profile.html',{'form':form,'login':login})
+      l=LoginEditForm(instance=user)
+      c=PoliceForm(instance=station)
+    return render(request,'police/edit_profile.html',{'c':c,'l':l})
 
 
      # public profile editing
@@ -328,9 +328,9 @@ def CampSearch(request):
             Q(thaluk__icontains=query) |
             Q(contact__icontains=query) 
         )
-        return render(request, 'camp/camp_search.html', {'camps': camps})
+        return render(request, 'public/camp_search.html', {'camps': camps})
     else:
-        return render(request, 'camp/camp_search.html')
+        return render(request, 'public/camp_search.html')
 
 
 def CampNeedsSubmit(request):
@@ -430,9 +430,9 @@ def SearchPerson(request):
             Q(village__icontains=query) |
             Q(thaluk__icontains=query) 
             )      
-        return render(request,'common/camp_search_person.html',{'users':users})
+        return render(request,'public/search_persons.html',{'users':users})
     else:
-        return render(request,'common/camp_search_person.html')
+        return render(request,'public/search_persons.html')
     
 def CampAlerts(request):
     session_id=request.session['camp_id']
