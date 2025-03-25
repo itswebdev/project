@@ -1,0 +1,177 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta content="width=device-width, initial-scale=1.0" name="viewport" />
+    <title>Camp</title>
+    <meta name="description" content="" />
+    <meta name="keywords" content="" />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css"
+      integrity="sha512-Evv84Mr4kqVGRNSgIGL/F/aIDqQb7xQ2vcrdIwxfjThSH8CSR7PBEakCr51Ck+w+/U6swU2Im1vVX0SVk9ABhg=="
+      crossorigin="anonymous"
+      referrerpolicy="no-referrer"
+    />
+    <link href="{% static "output.css" %}" rel="stylesheet">
+  </head>
+
+  <body class="font-Poppins min-h-full">
+    <!-- header -->
+    <header class="relative">
+      <nav class="container flex items-center py-4 relative">
+        <!-- Logo -->
+        <img
+          id="navLogo"
+          class="w-[50px] transition-all duration-300"
+          src="{% static 'logo.png' %}"
+          alt="Logo"
+        />
+        <div class="py-1">
+          <h2 class="text-2xl font-Inter font-extrabold text-blue-800">Camp</h2>
+        </div>
+
+        <!-- Desktop Navigation (visible on sm and up) -->
+        <ul
+          class="hidden sm:flex flex-1 justify-end items-center gap-12 text-bookmark-blue uppercase text-xs md:text-[16px]"
+        >
+          <li class="cursor-pointer">
+            <a href="{% url 'PublicHome' %}">Home</a>
+          </li>
+          <li class="cursor-pointer">
+            <a href="{% url 'EditPublic' %}">Profile</a>
+          </li>
+          <li>
+            <a href="{% url 'Logout' %}">
+              <button
+                class="cursor-pointer bg-gradient-to-r from-blue-700 to-blue-900 rounded-md px-4 py-2 text-bookmark-white"
+              >
+                Logout
+              </button>
+            </a>
+          </li>
+        </ul>
+
+        <!-- Mobile Toggle Icon (visible only on mobile) -->
+        <div
+          id="mobileToggle"
+          class="flex sm:hidden flex-1 justify-end cursor-pointer z-50"
+        >
+          <i class="text-2xl fas fa-bars"></i>
+        </div>
+      </nav>
+    </header>
+
+    <!-- Mobile Navigation Drawer -->
+    <!-- 
+    The mobile menu is fixed with a top offset (here, top-16, adjust as needed to match your header height)
+    It starts with max-h-0 (hidden) and expands to max-h-96 when toggled.
+  -->
+    <div
+      id="mobileMenu"
+      class="sm:hidden fixed top-16 left-0 right-0 bg-white overflow-hidden transition-all duration-300 max-h-0 z-40"
+    >
+      <ul class="flex flex-col items-center gap-4 p-4">
+        <li>
+          <a href="{% url 'PublicHome' %}" class="block py-2">Home</a>
+        </li>
+        <li>
+          <a href="{% url 'EditPublic' %}" class="block py-2">Profile</a>
+        </li>
+        <li>
+          <a href="{% url 'Logout' %}" class="block py-2">Logout</a>
+        </li>
+      </ul>
+    </div>
+
+    <form class="container mt-12" method="post">
+      {% csrf_token %}
+      <div class="relative">
+        <div class="relative z-0 w-full mb-5 group">
+          <input
+            class="custom-input peer"
+            type="text"
+            name="complaint_sub"
+            id="id_complaint_sub"
+            maxlength="100"
+            placeholder=""
+            value="{{ complaints.complaint_sub.value }}"
+            required
+          />
+          <label class="custom-label" for="id_complaint_sub"
+            >Complaint sub:</label
+          >
+        </div>
+
+        <div class="relative z-0 w-full mb-5 group">
+          <textarea
+            class="custom-input peer"
+            name="complaint"
+            id="id_complaint"
+            cols="40"
+            rows="10"
+            maxlength="500"
+            placeholder=""
+            required
+          >
+        {{ complaints.complaint.value }}    
+        </textarea>
+          <label class="custom-label" for="id_complaint">Complaint</label>
+        </div>
+      </div>
+      <div class="w-full flex justify-center">
+        <button
+          type="submit"
+          class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm w-3/4 px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
+        >
+          Submit
+        </button>
+      </div>
+    </form>
+
+    <!-- footer  -->
+    <footer
+      class="absolute bottom-0 bg-gradient-to-r from-blue-700 to-blue-900 mt-10 h-40 md:h-24 w-full py-8 px-4"
+    >
+      <div
+        class="container flex flex-col items-center md:flex-row md:justify-center md:items-center"
+      >
+        <div
+          class="flex flex-1 flex-wrap items-center justify-center md:justify-start gap-12"
+        >
+          <img src="./imgs/logo-bookmark-white.png" alt="" />
+          <ul class="flex text-white uppercase gap-12">
+            <li class="cursor-pointer text-xs md:text-[16px]">Features</li>
+            <li class="cursor-pointer text-xs md:text-[16px]">Pricing</li>
+            <li class="cursor-pointer text-xs md:text-[16px]">Contact</li>
+          </ul>
+        </div>
+        <ul class="flex gap-10 mt-12 pb-6 md:pb-0 md:mt-0">
+          <li><i class="text-white text-4xl fab fa-instagram"></i></li>
+          <li><i class="text-white text-4xl fab fa-twitter"></i></li>
+          <li><i class="text-white text-4xl fab fa-x"></i></li>
+          <li><i class="text-white text-4xl fab fa-facebook-square"></i></li>
+        </ul>
+      </div>
+    </footer>
+
+    <!-- JavaScript to toggle the mobile menu and logo visibility -->
+    <script>
+      const mobileToggle = document.getElementById("mobileToggle");
+      const mobileMenu = document.getElementById("mobileMenu");
+
+      mobileToggle.addEventListener("click", () => {
+        // If the mobile menu is closed, expand it; if open, collapse it.
+        if (mobileMenu.classList.contains("max-h-0")) {
+          mobileMenu.classList.remove("max-h-0");
+          mobileMenu.classList.add("max-h-96");
+        } else {
+          mobileMenu.classList.remove("max-h-96");
+          mobileMenu.classList.add("max-h-0");
+        }
+      });
+    </script>
+  </body>
+</html>

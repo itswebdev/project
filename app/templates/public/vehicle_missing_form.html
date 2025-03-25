@@ -88,10 +88,12 @@
       </ul>
     </div>
 
-    <main class="container bg-white flex justify-center shadow-md rounded-md p-3 mt-12 gap-22 md:mb-32">
+    <main
+      class="container bg-white flex justify-center shadow-md rounded-md p-3 mt-12 gap-22 md:mb-32"
+    >
       <div class="hidden md:flex flex-col gap-12 w-[350px]">
         <h1 class="text-4xl text-right pr-12 text-blue-900 font-bold">
-          Missing Person Register
+          Missing Vehicle Register
         </h1>
         <img src="{% static 'reg.png' %}" alt="" />
       </div>
@@ -106,14 +108,15 @@
         <div class="relative z-0 w-full mb-5 group">
           <div class="relative z-0 w-full mb-5 group">
             <input
-              type="file"
-              name="photo"
-              accept="image/*"
-              required
-              id="id_photo"
+              type="text"
+              id="id_category"
               class="custom-input peer"
+              name="category"
+              maxlength="30"
+              placeholder=""
+              required
             />
-            <label for="id_photo" class="custom-label">Photo:</label>
+            <label for="id_category" class="custom-label">category:</label>
           </div>
         </div>
 
@@ -121,32 +124,17 @@
           <div class="relative z-0 w-full mb-5 group">
             <input
               type="text"
-              id="id_name"
+              id="id_company"
               class="custom-input peer"
-              name="name"
-              maxlength="100"
+              name="company"
+              cols="40"
+              rows="10"
+              maxlength="20"
               placeholder=""
               required
             />
-            <label for="id_name" class="custom-label">Full Name:</label>
-          </div>
-        </div>
-
-        <div class="relative z-0 w-full mb-5 group">
-          <div class="relative z-0 w-full mb-5 group">
-            <textarea
-              type="text"
-              id="id_address"
-              class="custom-input peer"
-              name="address"
-              cols="40"
-              rows="10"
-              maxlength="100"
-              placeholder=""
-              required
-            >
-            </textarea>
-            <label for="id_address" class="custom-label">Address:</label>
+            
+            <label for="id_company" class="custom-label">company:</label>
           </div>
         </div>
 
@@ -155,14 +143,14 @@
             <div class="relative z-0 w-full mb-5 group">
               <input
                 type="text"
-                id="id_gender"
+                id="id_model_name"
                 class="custom-input peer"
-                name="gender"
-                maxlength="10"
+                name="model_name"
+                maxlength="30"
                 placeholder=""
                 required
               />
-              <label for="id_gender" class="custom-label">Gender:</label>
+              <label for="id_model_name" class="custom-label">model name:</label>
             </div>
           </div>
 
@@ -170,35 +158,48 @@
             <div class="relative z-0 w-full mb-5 group">
               <input
                 type="text"
-                id="id_age"
+                id="id_vehicle_num"
                 class="custom-input peer"
-                name="age"
-                maxlength="10"
+                name="vehicle_num"
+                maxlength="15"
                 placeholder=""
                 required
               />
-              <label for="id_age" class="custom-label">Age:</label>
+              <label for="id_vehicle_num" class="custom-label">vehicle number:</label>
             </div>
           </div>
         </div>
 
         <div class="relative z-0 w-full mb-5 group">
-          <div class="relative z-0 w-full mb-5 group">
-            <textarea
-              name="other_details"
-              class="custom-input peer"
-              placeholder=""
-              cols="40"
-              rows="10"
-              maxlength="100"
-              required
-              id="id_other_details"
-            ></textarea>
-            <label for="id_other_details" class="custom-label"
-              >Other details:</label
-            >
+            <div class="relative z-0 w-full mb-5 group">
+              <input
+                type="text"
+                id="id_missing_place"
+                class="custom-input peer"
+                name="missing_place"
+                maxlength="20"
+                placeholder=""
+                required
+              />
+              <label for="id_missing_place" class="custom-label">missing place</label>
+            </div>
           </div>
-        </div>
+
+          <div class="relative z-0 w-full mb-5 group">
+            <div class="relative z-0 w-full mb-5 group">
+              <input
+                type="date"
+                id="id_missing_date"
+                class="custom-input peer"
+                name="missing_date"
+                maxlength="10"
+                placeholder=""
+                required
+              />
+              <label for="id_missing_date" class="custom-label">missing date</label>
+            </div>
+          </div>
+
         <button
           type="submit"
           class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm w-full px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"

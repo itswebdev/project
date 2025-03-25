@@ -620,8 +620,8 @@ def EditComplaint(request,id):
             messages.success(request,'Complaint edited successfully')
             return redirect('ListComplaints')
     else:
-        form=ComplaintForm(instance=complaint)
-    return render(request,'public/public_complaint.html',{'form':form})
+        complaints=ComplaintForm(instance=complaint)
+    return render(request,'public/edit_complaint.html',{'complaints':complaints})
 
 def DeleteComplaint(request,id):
     complaint=get_object_or_404(Complaint,id=id)
@@ -700,7 +700,7 @@ def FundAllocationRequestEdit(request,id):
             return redirect('FundAllocationRequestList')
     else:
             form=FundAllocationForm(instance=req)
-    return render(request,'public/fund_allocation.html',{'form':form})
+    return render(request,'public/edit_fund_allocation.html',{'form':form})
 
 def FundAllocationRequestDelete(request,id):
     req=get_object_or_404(FundAllocationModel,id=id)

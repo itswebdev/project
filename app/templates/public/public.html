@@ -5,14 +5,13 @@
   <head>
     <meta charset="utf-8" />
     <meta content="width=device-width, initial-scale=1.0" name="viewport" />
-    <title>Camp</title>
+    <title>Public</title>
     <meta name="description" content="" />
     <meta name="keywords" content="" />
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css" integrity="sha512-Evv84Mr4kqVGRNSgIGL/F/aIDqQb7xQ2vcrdIwxfjThSH8CSR7PBEakCr51Ck+w+/U6swU2Im1vVX0SVk9ABhg==" crossorigin="anonymous" referrerpolicy="no-referrer" />
     <link href="{% static "output.css" %}" rel="stylesheet">
 
   </head>
-
 
   <body class="font-Poppins min-h-full">
 
@@ -70,7 +69,6 @@
   </div>
 
 
-
         <!-- Hero -->
         <section class="relative">
           <div class="container flex items-center gap-12 mt-4 lg:mt-2">
@@ -103,6 +101,16 @@
               <h3 class="text-center">Search Camps</h3>
             </div>
             <a class="w-full" href="{% url "CampSearch" %}">
+              <button class="cursor-pointer bg-gradient-to-r from-blue-700 to-blue-900 w-full py-3 text-xl rounded-md text-bookmark-white">Click</button>
+            </a>
+          </div>
+
+          <div class="flex flex-col items-center gap-4 py-6 px-6 rounded-md shadow-md  border">
+            <div class="w-full flex justify-center items-center gap-4">
+              <img class="w-2/6"  src="{% static "station.png" %}" alt="IMG">
+              <h3 class="text-center">Search Police Station</h3>
+            </div>
+            <a class="w-full" href="{% url "StationSearch" %}">
               <button class="cursor-pointer bg-gradient-to-r from-blue-700 to-blue-900 w-full py-3 text-xl rounded-md text-bookmark-white">Click</button>
             </a>
           </div>
@@ -157,11 +165,30 @@
               <button class="cursor-pointer bg-gradient-to-r from-blue-700 to-blue-900 w-full py-3 text-xl rounded-md text-bookmark-white">Click</button>
             </a>
           </div>
-    
+
           
+          <div class="flex flex-col items-center gap-4 py-6 px-6 rounded-md shadow-md  border">
+            <div class="w-full flex justify-center items-center gap-4">
+              <img class="w-2/6"  src="{% static "camp-user-reg.svg" %}" alt="IMG">
+              <h3 class="text-center">Person Mising List</h3>
+            </div>
+            <a class="w-full" href="{% url "ViewMissingList" %}">
+              <button class="cursor-pointer bg-gradient-to-r from-blue-700 to-blue-900 w-full py-3 text-xl rounded-md text-bookmark-white">Click</button>
+            </a>
+          </div>
+
+          <div class="flex flex-col items-center gap-4 py-6 px-6 rounded-md shadow-md  border">
+            <div class="w-full flex justify-center items-center gap-4">
+              <img class="w-2/6"  src="{% static "view-vol-req.svg" %}" alt="IMG">
+              <h3 class="text-center">Vehicle Mising List</h3>
+            </div>
+            <a class="w-full" href="{% url "VehicleList" %}">
+              <button class="cursor-pointer bg-gradient-to-r from-blue-700 to-blue-900 w-full py-3 text-xl rounded-md text-bookmark-white">Click</button>
+            </a>
+          </div>
+    
+      
         </main>
-
-
                     <!-- footer  -->
     <footer class="relative bg-gradient-to-r from-blue-700 to-blue-900 mt-10 h-full w-full py-5 ">
       <div class="container flex flex-col items-center md:flex-row md:justify-center md:items-center">
