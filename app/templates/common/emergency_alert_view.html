@@ -1,0 +1,38 @@
+{% load static %}
+<div class="row">
+    <div class="col-md-12">
+      <div class="card">
+        <div class="card-header">
+          <link rel="stylesheet" href="{% static 'admin/assets/css/bootstrap.min.css' %}" />
+          <h4 class="card-title">Emergency Alert Message List</h4>
+        </div>
+        <div class="card-body">
+          <div class="table-responsive">
+            <table
+              id="basic-datatables"
+              class="display table table-striped table-hover"
+            >
+
+            <thead>
+              <tr>
+                  <th>ID</th>
+                  <th>Alert Message</th>
+                  <th>Uploaded On</th>
+              </tr>
+            </thead>
+                <tbody>
+                  {% for result in results %}
+                  <tr>
+                    <td>{{ result.id }}</td>
+                    <td>{{ result.alert_message }}</td>
+                    <td>{{ result.current_date }}</td>
+                    </tr>
+                  {% endfor %}
+                </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+    </div>              
+  </div>

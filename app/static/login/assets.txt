@@ -1,0 +1,12 @@
+<link rel='stylesheet' href='https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.14.0/css/all.min.css'>
+
+
+<i class="fab fa-facebook-f"></i>
+<i class="fab fa-google-plus-g"></i>
+<i class="fab fa-linkedin-in"></i>
+
+
+
+
+css:-
+@import url('https://fonts.googleapis.com/css?family=Montserrat:400,800');

@@ -820,7 +820,7 @@ def AddMissingStatus(request,id):
            return redirect('ViewMissingReports')
     else:
         form=MissingPersonStatusForm()
-    return render(request,'police/missing_case_status.html',{'form':form ,'id':id})
+    return render(request,'police/missing_case_status.html',{'form':form,'id':id})
 
 def EditMissingStatus(request,id):
     id=get_object_or_404(MissingPerson,id=id)
