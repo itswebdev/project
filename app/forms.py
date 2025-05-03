@@ -157,3 +157,7 @@ class ChangePasswordForm(forms.Form):                   #      form for changing
     current_pass=forms.CharField(max_length=30)
     new_pass=forms.CharField(widget=forms.PasswordInput)
     confirm_pass=forms.CharField(widget=forms.PasswordInput)
+
+
+class misscheck(forms.Form):
+    pic=forms.ImageField()

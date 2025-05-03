@@ -858,7 +858,7 @@ def StationSearch(request):
         return render(request, 'public/station_search.html')
     
 def AddMissingStatus(request,id):
-    session_id=request.session.get('police_id')
+    session_id=request.session.get('station_id')
     if not session_id:
         return redirect('UserLogin') 
     id=get_object_or_404(MissingPerson,id=id)
@@ -874,7 +874,7 @@ def AddMissingStatus(request,id):
     return render(request,'police/missing_case_status.html',{'form':form,'id':id})
 
 def EditMissingStatus(request,id):
-    session_id=request.session.get('police_id')
+    session_id=request.session.get('station_id')
     if not session_id:
         return redirect('UserLogin') 
     id=get_object_or_404(MissingPerson,id=id)
@@ -890,7 +890,7 @@ def EditMissingStatus(request,id):
     return render(request,'police/missing_case_status.html',{'form':form })
 
 def DeleteMissingStatus(request,id):
-    session_id=request.session.get('police_id')
+    session_id=request.session.get('station_id')
     if not session_id:
         return redirect('UserLogin')
     stat=get_object_or_404(MissingPerson,id=id)
@@ -1194,3 +1194,108 @@ def ComfirmPassStation(request):
         form=ChangePasswordForm()
 
     return render(request,'common/change_password.html',{'form':form})
+
+API_KEY = "7c8f76a84fb1b06e3990c51bedf0a2fa"
+
+
+def get_weather(request):
+    latitude = request.GET.get("lat", None)
+    longitude = request.GET.get("lon", None)
+
+    if not latitude or not longitude:
+        return render(request, "public/weather.html", {"error": "Location not provided!"})
+
+    URL = f"http://api.openweathermap.org/data/2.5/weather?lat={latitude}&lon={longitude}&appid={API_KEY}&units=metric"
+    response = requests.get(URL)
+    data = response.json()
+
+    if response.status_code == 200:
+        prediction = predict_disaster(data)
+        context = {
+            "latitude": latitude,
+            "longitude": longitude,
+            "temperature": data["main"]["temp"],
+            "humidity": data["main"]["humidity"],
+            "wind_speed": data["wind"]["speed"],
+            "weather_condition": data["weather"][0]["description"],
+            "prediction": prediction
+        }
+    else:
+        context = {"error": "Could not fetch weather data"}
+
+    return render(request, "public/weather.html", context)
+
+def predict_disaster(data):
+    """Predict disaster risk based on weather data"""
+    temp = data["main"]["temp"]
+    humidity = data["main"]["humidity"]
+    wind_speed = data["wind"]["speed"]
+    weather_condition = data["weather"][0]["main"]
+
+    if weather_condition in ["Thunderstorm", "Tornado"]:
+        return "⚠️ High Risk of Storm"
+    elif weather_condition == "Rain" and humidity > 80:
+        return "⚠️ Flood Risk Due to Heavy Rain"
+    elif temp > 40 and humidity < 30:
+        return "🔥 Extreme Heat Warning"
+    else:
+        return "✅ No Disaster Risk Detected"
+
+from django.shortcuts import render
+from django.core.files.storage import default_storage
+from django.conf import settings
+import os
+import face_recognition
+from .forms import misscheck
+from .models import MissingPerson
+
+def encode_image(image_path):
+    """Load and encode a face from an image path."""
+    image = face_recognition.load_image_file(image_path)
+    encodings = face_recognition.face_encodings(image)
+    return encodings[0] if encodings else None
+
+def misschecking(request):
+    if request.method == 'POST':
+        form = misscheck(request.POST, request.FILES)
+        if form.is_valid():
+            uploaded_pic = form.cleaned_data['pic']
+
+            # Save the uploaded image temporarily
+            file_path = default_storage.save(f'temp/{uploaded_pic.name}', uploaded_pic)
+            full_file_path = default_storage.path(file_path)
+
+            # Encode the uploaded face
+            uploaded_encoding = encode_image(full_file_path)
+
+            matches = []
+
+            if uploaded_encoding is not None:
+                for person in MissingPerson.objects.all():
+                    stored_image_path = person.photo.path
+
+                    # Double-check the file exists (usually not needed if using person.photo.path)
+                    if not os.path.exists(stored_image_path):
+                        print(f"Image not found: {stored_image_path}")
+                        continue
+
+                    known_encoding = encode_image(stored_image_path)
+
+                    if known_encoding is not None:
+                        result = face_recognition.compare_faces([known_encoding], uploaded_encoding)
+                        if result and result[0]:
+                            matches.append(person)
+
+            # Clean up: delete temp file
+            if os.path.exists(full_file_path):
+                os.remove(full_file_path)
+
+            return render(request, 'police/miss_checking.html', {
+                'form': form,
+                'matches': matches
+            })
+
+    else:
+        form = misscheck()
+
+    return render(request, 'police/miss_checking.html', {'form': form})

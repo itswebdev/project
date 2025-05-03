@@ -1,0 +1,69 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <center>
+    <title>Weather & Disaster Prediction</title>
+</head>
+<body>
+    <h2>Weather & Disaster Prediction</h2>
+
+    <button onclick="getLocation()">Get My Location & Predict Disaster</button>
+
+    <script>
+        function getLocation() {
+            if (navigator.geolocation) {
+                navigator.geolocation.getCurrentPosition(showPosition, showError);
+            } else {
+                alert("Geolocation is not supported by this browser.");
+            }
+        }
+
+/*************  ✨ Windsurf Command ⭐  *************/
+/*******  b04579b5-d738-450c-9065-3f57b3ef3518  *******/
+        function showPosition(position) {
+            let lat = position.coords.latitude;
+            let lon = position.coords.longitude;
+            // alert("Your Location: Latitude " + lat + ", Longitude " + lon);
+            window.location.href = `/weather/?lat=${lat}&lon=${lon}`;
+        }
+
+        function showError(error) {
+            switch (error.code) {
+                case error.PERMISSION_DENIED:
+                    alert("User denied the request for Geolocation.");
+                    break;
+                case error.POSITION_UNAVAILABLE:
+                    alert("Location information is unavailable.");
+                    break;
+                case error.TIMEOUT:
+                    alert("The request to get user location timed out.");
+                    break;
+                case error.UNKNOWN_ERROR:
+                    alert("An unknown error occurred.");
+                    break;
+            }
+        }
+    </script>
+
+    {% if error %}
+        <p style="color: red;"><b>{{ error }}</b></p>
+    {% else %}
+        <h3>📍 Location:</h3>
+        <p><b>Latitude:</b> {{ latitude }}</p>
+        <p><b>Longitude:</b> {{ longitude }}</p>
+
+        <h3>🌤️ Weather Report:</h3>
+        <p><b>Temperature:</b> {{ temperature }}°C</p>
+        <p><b>Humidity:</b> {{ humidity }}%</p>
+        <p><b>Wind Speed:</b> {{ wind_speed }} m/s</p>
+        <p><b>Weather Condition:</b> {{ weather_condition }}</p>
+
+        <h3>🚨 Disaster Prediction:</h3>
+        <p><b>{{ prediction }}</b></p>
+    {% endif %}
+</center>
+</body>
+</html>

@@ -120,6 +120,9 @@ urlpatterns = [
     path('DeleteVehicleStatus/<int:id>',views.DeleteVehicleStatus,name="DeleteVehicleStatus"),
     path('VehicleList',views.VehicleList,name="VehicleList"),
     path('ComfirmPassCamp',views.ComfirmPassCamp,name="ComfirmPassCamp"),
+
+    path("weather/", views.get_weather, name="weather"),
+    path('misschecking/', views.misschecking, name='misschecking'),
     
     
 ]+static(settings.MEDIA_URL,document_root=settings.MEDIA_ROOT) # new 
