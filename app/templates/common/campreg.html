@@ -1,0 +1,263 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Login Page</title>
+  <link href="{% static 'output.css' %}" rel="stylesheet">
+</head>
+<body class="bg-white text-gray-800">
+
+  <!-- Navbar -->
+  <nav class="flex items-center justify-between px-6 md:px-16 py-4 bg-white shadow">
+    <div class="flex items-center gap-2">
+      <img src="{% static 'logo.png' %}" class="w-[50px] h-[50px]" alt="Logo">
+      <span class="text-2xl font-bold text-blue-800">Disaster Management System</span>
+    </div>
+    <div>
+      <a href="/" class="text-blue-600 hover:underline"><button
+        id="navRegisterBtn"
+        class="bg-blue-600 text-white px-4 py-2 rounded-md hover:bg-blue-700 transition"
+      >
+        Back
+      </button></a>
+    </div>
+  </nav>
+
+  <!-- Hero Section -->
+  <section class="flex flex-col md:flex-row items-center justify-center min-h-[80vh] px-6 py-12 bg-gray-50">
+    
+    <!-- Left Image -->
+    <div class="w-full md:w-1/2 flex justify-center mb-10 md:mb-0">
+      <img src="{% static 'register.jpg' %}" alt="Login Visual" class="w-2/3 md:w-3/4">
+    </div>
+
+    <!-- Right Login Form -->
+    <div class="w-full md:w-1/3 bg-white p-8 rounded-lg shadow-md">
+      <h2 class="text-2xl text-center font-semibold text-blue-700 mb-6">Register</h2>
+  <form method="post">
+    {% csrf_token %}
+    <div class="relative z-0 w-full mb-5 group">
+      <input
+        type="text"
+        id="id_camp_name"
+        class="custom-input peer"
+        name="camp_name"
+        maxlength="100"
+        placeholder=""
+        required
+      />
+      <label for="id_camp_name" class="custom-label">Camp Name:</label>
+    </div>
+    
+    <div class="relative z-0 w-full mb-5 group">
+      <input
+        type="text"
+        id="id_full_address"
+        class="custom-input peer"
+        name="full_address"
+        maxlength="255"
+        placeholder=""
+        required
+      />
+      <label for="id_full_address" class="custom-label">Full Address:</label>
+    </div>
+    
+    <div class="grid md:grid-cols-2 md:gap-6">
+      <div class="relative z-0 w-full mb-5 group">
+        <input
+          type="text"
+          id="id_district"
+          class="custom-input peer"
+          name="district"
+          maxlength="100"
+          placeholder=""
+          required
+        />
+        <label for="id_district" class="custom-label">District:</label>
+      </div>
+    
+      <div class="relative z-0 w-full mb-5 group">
+        <input
+          type="text"
+          id="id_city"
+          class="custom-input peer"
+          name="city"
+          maxlength="100"
+          placeholder=""
+          required
+        />
+        <label for="id_city" class="custom-label">City:</label>
+      </div>
+    </div>
+    
+    <div class="grid md:grid-cols-2 md:gap-6">
+      <div class="relative z-0 w-full mb-5 group">
+        <input
+          type="text"
+          id="id_panchayath"
+          class="custom-input peer"
+          name="panchayath"
+          maxlength="100"
+          placeholder=""
+          required
+        />
+        <label for="id_panchayath" class="custom-label">Panchayath:</label>
+      </div>
+    
+      <div class="relative z-0 w-full mb-5 group">
+        <input
+          type="text"
+          id="id_thaluk"
+          class="custom-input peer"
+          name="thaluk"
+          maxlength="100"
+          placeholder=""
+          required
+        />
+        <label for="id_thaluk" class="custom-label">Thaluk:</label>
+      </div>
+    </div>
+    
+    <div class="relative z-0 w-full mb-5 group">
+      <input
+        type="text"
+        id="id_contact"
+        class="custom-input peer"
+        name="contact"
+        maxlength="15"
+        placeholder=""
+        required
+      />
+      <label for="id_contact" class="custom-label">Contact:</label>
+    </div>
+    <div class="relative z-0 w-full mb-5 group">
+      <input
+        type="email"
+        id="id_email"
+        class="custom-input peer"
+        name="email"
+        maxlength="100"
+        placeholder=""
+        required
+      />
+      <label for="id_email" class="custom-label">Email:</label>
+    </div>
+    
+    <div class="relative z-0 w-full mb-5 group">
+      <input
+        type="password"
+        id="id_password"
+        class="custom-input peer"
+        name="password"
+        maxlength="100"
+        placeholder=""
+        required
+      />
+      <label for="id_password" class="custom-label">Password:</label>
+    </div>
+    <button type="submit" class="w-full bg-blue-600 text-white py-2 rounded-md hover:bg-blue-700 transition">
+      Register
+    </button>
+  </form>
+  </section>
+
+  <!-- Footer -->
+  <footer class="text-center py-6 border-t border-gray-200 bg-white text-gray-600">
+    &copy; 2025 MyCompany. All rights reserved.
+  </footer>
+
+  <script>
+    document.addEventListener('DOMContentLoaded', function () {
+      function handleValidation(input, options) {
+        const feedback = document.createElement('small');
+        feedback.style.display = 'block';
+        feedback.style.marginTop = '4px';
+        input.parentNode.appendChild(feedback);
+  
+        function validate() {
+          const value = input.value.trim();
+  
+          if (!value) {
+            feedback.textContent = '❌ This field is required';
+            feedback.style.color = 'red';
+            return false;
+          }
+  
+          if (options.pattern && !options.pattern.test(value)) {
+            feedback.textContent = '❌ ' + options.invalidMsg;
+            feedback.style.color = 'red';
+            return false;
+          }
+  
+          feedback.textContent = '✅ ' + options.validMsg;
+          feedback.style.color = 'green';
+          return true;
+        }
+  
+        input.addEventListener('input', validate);
+        return validate;
+      }
+  
+      const fields = [
+        { name: 'camp_name' },
+        { name: 'full_address' },
+        { name: 'district' },
+        { name: 'city' },
+        { name: 'panchayath' },
+        { name: 'thaluk' },
+        {
+          name: 'contact',
+          pattern: /^[0-9]{7,15}$/,
+          validMsg: 'Valid contact number',
+          invalidMsg: 'Enter a valid number (7–15 digits)'
+        },
+        {
+          name: 'email',
+          pattern: /^[^\s@]+@[^\s@]+\.[^\s@]+$/,
+          validMsg: 'Valid email address',
+          invalidMsg: 'Enter a valid email address'
+        },
+        {
+          name: 'password',
+          pattern: /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/,
+          validMsg: 'Strong password',
+          invalidMsg: 'Min 8 chars, 1 uppercase, 1 lowercase, 1 number, 1 special char'
+        }
+      ];
+  
+      const validators = [];
+  
+      fields.forEach(field => {
+        const input = document.querySelector(`input[name="${field.name}"]`);
+        if (input) {
+          validators.push(
+            handleValidation(input, {
+              pattern: field.pattern,
+              validMsg: field.validMsg || 'Looks good!',
+              invalidMsg: field.invalidMsg || 'Invalid input'
+            })
+          );
+        }
+      });
+  
+      const form = document.querySelector('form');
+      form.addEventListener('submit', function (e) {
+        let allValid = true;
+        validators.forEach(validate => {
+          if (!validate()) allValid = false;
+        });
+  
+        if (!allValid) {
+          e.preventDefault();
+          alert("❌ Please correct the highlighted errors.");
+        }
+      });
+    });
+  </script>
+  
+  
+  
+</body>
+</html>

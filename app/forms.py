@@ -45,6 +45,22 @@ class CampUserForm(forms.ModelForm):
     class Meta:
         model=CampUser
         fields=['photo','full_name','address','district','city','contact_no','aadhar_no','panchayath','village','thaluk']
+        widgets = {
+            'full_name': forms.TextInput(attrs={
+                'class': 'custom-input peer',
+                'placeholder': '',
+                'required': True,
+                'pattern': '^[A-Za-z ]{2,50}$',
+                'title': 'Name must be letters and spaces only (2–50 characters)'
+            }),
+            'address': forms.TextInput(attrs={
+                'class': 'custom-input',
+                'placeholder': 'Address',
+                'required': True,
+                'pattern': '^[A-Za-z ]{2,50}$',
+                'title': 'Name must be letters and spaces only (2–50 characters)'
+            }),
+         }
 
 class CampNeedsForm(forms.ModelForm):
     class Meta:

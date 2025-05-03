@@ -9,6 +9,12 @@
   <form  method="post" enctype="multipart/form-data">
     <h1 class="sm:hidden text-4xl text-center mb-12 text-blue-900 font-bold">Register Camp Person</h1>
     {% csrf_token %}
+    <div class="relative z-0 w-full mb-5 group">
+      {% comment %} {{form.full_name}}
+      <label for="{{ form.full_name.id_for_label }}" class="custom-label">{{ form.full_name.label }}</label>
+    </div>
+    {{ form.as_p }} {% endcomment %}
+   
 
     <div class="relative z-0 w-full mb-5 group">
       <div class="relative z-0 w-full mb-5 group">

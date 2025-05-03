@@ -24,10 +24,9 @@ def CampReg(request):
             messages.success(request,"Camp Registered Successfully")
             return redirect('UserLogin')
     else:
-
         form=CampForm()
         login=LoginForm()
-    return render(request, 'common/registration.html',{'form':form,'login':login})
+    return render(request, 'common/campreg.html',{'form':form,'login':login})
 
     # station Registration form
 
@@ -48,7 +47,7 @@ def PoliceReg(request):
 
         form=PoliceForm()
         login=LoginForm()
-    return render(request,'common/registration.html',{'form':form,'login':login})
+    return render(request,'common/policereg.html',{'form':form,'login':login})
 
     # public Registration form
 
@@ -69,7 +68,7 @@ def PublicReg(request):
 
         form=PublicForm()
         login=LoginForm()
-    return render(request, 'common/registration.html',{'form':form,'login':login})
+    return render(request, 'common/publicreg.html',{'form':form,'login':login})
 
     # volunteer Registration form
 
@@ -89,7 +88,7 @@ def VolunteerReg(request):
     else:
         form=VolunteerForm()
         login=LoginForm()
-    return render(request,'common/registration.html',{'form':form,'login':login})
+    return render(request,'common/volreg.html',{'form':form,'login':login})
 
 # admin home page
 
@@ -143,7 +142,8 @@ def UserLogin(request):
             email=form.cleaned_data['email']
             password=form.cleaned_data['password']
             try:
-                user=Login.objects.get(email=email)         #   login object
+                user=Login.objects.get(email=email)         
+                #   login object
                 if user.password==password:
                     if user.usertype=="camp":
                         request.session['camp_id']=user.id
@@ -213,27 +213,34 @@ def EditStation(request):
 
      # public profile editing
 
-def EditPublic(request): 
-    id=request.session['public_id']
-    user=get_object_or_404(Login, id=id)
-    public=get_object_or_404(Public, login_id=user)
-    if request.method=="POST":
-            login=LoginEditForm(request.POST, instance=user)
-            form=PublicForm(request.POST, instance=public)
-            if form.is_valid() and login.is_valid():
-             form.save()
-             login.save()
-             messages.success(request,"Profile Updated Successfully")
-             return redirect('PublicHome')
+def EditPublic(request):
+    pid=request.session.get('public_id')                
+    #  'get()' is used to avoid KeyError if the key is not found in the session.
+    if not pid:
+        return redirect('UserLogin')
     else:
-      login=LoginEditForm(instance=user)
-      form=PublicForm(instance=public)
-    return render(request,'common/edit_profile.html',{'form':form,'login':login})
+        user=get_object_or_404(Login, id=pid)
+        public=get_object_or_404(Public, login_id=user)
+        if request.method=="POST":
+                login=LoginEditForm(request.POST, instance=user)
+                form=PublicForm(request.POST, instance=public)
+                if form.is_valid() and login.is_valid():
+                    form.save()
+                    login.save()
+                    messages.success(request,"Profile Updated Successfully")
+                    return redirect('PublicHome')
+        else:
+            login=LoginEditForm(instance=user)
+            form=PublicForm(instance=public)
+        return render(request,'common/edit_profile.html',{'form':form,'login':login})
+   
 
     # volunteer profile editing
 
-def EditVolunteer(request):                             
-    id=request.session['volunteer_id']
+def EditVolunteer(request):   
+    id=request.session.get('volunteer_id') 
+    if not id:
+        return redirect('UserLogin')               
     user=get_object_or_404(Login, id=id)
     volunteer=get_object_or_404(Volunteer, login_id=user)
     if request.method=="POST":
@@ -257,7 +264,9 @@ def ViewAdmin2(request):
     #  Camp User Registration  
 
 def CampAddUser(request):
-    id=request.session['camp_id']                        # We can also use ' id=request.session.get('camp_id') ' instead of this line.
+    id=request.session.get('camp_id')
+    if not id:
+        return redirect('UserLogin')
     campdata=get_object_or_404(Login,id=id)
     if request.method=="POST":
         form=CampUserForm(request.POST,request.FILES)    # 'request.FILES' is used because image files are also stored here.
@@ -275,7 +284,9 @@ def CampAddUser(request):
     # Camp user viewing
 
 def CampUsersView(request):
-    session_id=request.session['camp_id']
+    session_id=request.session.get('camp_id')
+    if not id:
+        return redirect('UserLogin')
     a=get_object_or_404(Login,id=session_id)
     users=CampUser.objects.filter(camp_id=a)
     return render(request,'camp/camp_users_table.html',{'users':users})
@@ -283,6 +294,9 @@ def CampUsersView(request):
     # Editing camp user
 
 def EditCampUser(request,id):
+    check=request.session.get('camp_id')
+    if not check:
+        return redirect('UserLogin')
     user=get_object_or_404(CampUser, id=id)
     if request.method=="POST":
         form=CampUserForm(request.POST,request.FILES, instance=user)
@@ -297,6 +311,9 @@ def EditCampUser(request,id):
     # Deleting camp user
  
 def CampUserDelete(request,id):
+    check=request.session.get('camp_id')
+    if not check:
+        return redirect('UserLogin')
     user=get_object_or_404(CampUser, id=id)
     user.delete()
     messages.success(request,"Deleted Successfully")
@@ -305,18 +322,11 @@ def CampUserDelete(request,id):
 def Landing(request):
     return render(request,'common/landing.html')
    
-# def CampSearch(request):
-#     if request.method=="POST":
-#         query=request.POST.get('search')
-#         camps=Camp.objects.filter(camp_name__icontains=query,city__icontains=query)
-#         return render(request,'camp_search.html',{'camps':camps})
-#     else:
-#         return render(request,'camp_search.html')
-    
-
-    # searching for camps
 
 def CampSearch(request):
+    check=request.session.get('public_id')
+    if not check:
+        return redirect('UserLogin')
     if request.method == "POST":
         query = request.POST.get('search')
         camps = Camp.objects.filter(
@@ -334,7 +344,9 @@ def CampSearch(request):
 
 
 def CampNeedsSubmit(request):
-    id=request.session['camp_id']    
+    id=request.session.get('camp_id')
+    if not id:
+        return redirect('UserLogin')   
     campdata=get_object_or_404(Camp,login_id=id)
     if request.method =="POST":
         form=CampNeedsForm(request.POST)
@@ -352,12 +364,17 @@ def CampNeedsTable(request):
     return render(request,'admin/camp_needs_table.html',{'needs':needs})
 
 def NeedsViewTable(request):
-        session_id=request.session['camp_id']
-        a=get_object_or_404(Camp,login_id=session_id)
-        needs=CampNeeds.objects.filter(camp_id=a)
-        return render(request,'camp/needs_view_table.html',{'needs':needs})
+    session_id=request.session.get('camp_id')
+    if not session_id:
+        return redirect('UserLogin')
+    a=get_object_or_404(Camp,login_id=session_id)
+    needs=CampNeeds.objects.filter(camp_id=a)
+    return render(request,'camp/needs_view_table.html',{'needs':needs})
 
 def EditCampNeed(request,id):
+    check=request.session.get('camp_id')
+    if not check:
+        return redirect('UserLogin')
     need=get_object_or_404(CampNeeds,id=id)
     if request.method=="POST":
         form=CampNeedsForm(request.POST,instance=need)
@@ -370,6 +387,9 @@ def EditCampNeed(request,id):
     return render(request,'camp/camp_edit_needs.html',{'f':f})
 
 def CampNeedsDelete(request,id):
+    check=request.session.get('camp_id')
+    if not check:
+        return redirect('UserLogin')
     need=get_object_or_404(CampNeeds,id=id)
     need.delete()
     messages.success(request,"Deleted Successfully")
@@ -396,7 +416,9 @@ def SetCampNeedStatus(request,id):
     return render(request,'admin/set_camp_status.html',{'form':form})
 
 def SearchCampPerson(request):
-    id = request.session['camp_id']
+    id=request.session.get('camp_id')
+    if not id:
+        return redirect('UserLogin')
     a=get_object_or_404(Login,id=id)
     if request.method=="POST":
         query=request.POST.get('search')
@@ -417,6 +439,9 @@ def SearchCampPerson(request):
         return render(request,'camp/camp_search_person.html')
     
 def SearchPerson(request):
+    id=request.session.get('camp_id')
+    if not id:
+        return redirect('UserLogin')
     if request.method=="POST":
         query=request.POST.get('search')
         users=CampUser.objects.filter(
@@ -435,7 +460,9 @@ def SearchPerson(request):
         return render(request,'public/search_persons.html')
     
 def CampAlerts(request):
-    session_id=request.session['camp_id']
+    session_id=request.session.get('camp_id')
+    if not session_id:
+        return redirect('UserLogin')
     # print(session_id)
     alert=get_object_or_404(Camp,login_id=session_id)
     # print(alert)
@@ -467,7 +494,9 @@ def DeleteAlert(request,id):
     return redirect('AlertCampTable')
 
 def VolunteerReq(request):
-    session_id=request.session['camp_id']
+    session_id=request.session.get('camp_id')
+    if not session_id:
+        return redirect('UserLogin')
     req=get_object_or_404(Camp,login_id=session_id)
     if request.method=='POST':
         form=VolunteerReqForm(request.POST)
@@ -486,13 +515,18 @@ def VolunteerReqTable(request):
     return render(request,'admin/volunteer_req_table.html',{'requests':requests})
 
 def ReqVolunteerTable(request):
-    session_id=request.session['camp_id']
+    session_id=request.session.get('camp_id')
+    if not session_id:
+        return redirect('UserLogin')
     a=get_object_or_404(Camp,login_id=session_id)
     requests=VolunteerRequest.objects.filter(login_id=a)
     return render(request,'camp/req_volunteer_table.html',{'requests':requests})
 
 
 def EditVolunteerReq(request,id):
+    session_id=request.session.get('camp_id')
+    if not session_id:
+        return redirect('UserLogin')
     req=get_object_or_404(VolunteerRequest,id=id)
     if request.method=="POST":
           requests=VolunteerReqForm(request.POST,instance=req)
@@ -506,6 +540,9 @@ def EditVolunteerReq(request,id):
 
 
 def DeleteVolunteerReq(request,id):
+    session_id=request.session.get('camp_id')
+    if not session_id:
+        return redirect('UserLogin')
     req=get_object_or_404(VolunteerRequest,id=id)
     req.delete()
     messages.success(request,'Request deleted successfully')
@@ -553,7 +590,10 @@ def VolDeAllocate(request,campid,id,volreqid):
        messages.error(request,'Already deallocated')
        return redirect('VolunteerAllocateTable',id=campid,requestid=volreqid)
 
-def Notification(request):              
+def Notification(request):
+    session_id=request.session.get('volunteer_id')
+    if not session_id:
+        return redirect('UserLogin')              
     a = request.session.get('volunteer_id')
     user = get_object_or_404(Login, id=a)
     volunteer = get_object_or_404(Volunteer, login_id=user)
@@ -571,24 +611,10 @@ def Notification(request):
     return render(request, 'volunteer/notification.html', {'camp': camp, 'duties': duties})
 
 
-#                          OR
-
-
-# def VolNotifi(request):                                  #    Allocation notification sent to the volunteers
-#     session_id=request.session['volunteer_id']
-#     print(session_id)
-#     a=get_object_or_404(Volunteer,login_id=session_id)
-#     print(a)
-#     allocation=Allocate.objects.filter(volunteer=a).first()
-#     print(allocation)
-#     camp=allocation.camp
-#     if allocation:
-#         messages.success(request,f'You have been assigned to the camp {camp.camp_name}.Location :{camp.full_address},{camp.district},{camp.thaluk},{camp.panchayath}. Contact :{camp.contact}')
-#         return render(request,'allocation_notify.html')
-#     else:
-#         None
-
 def PublicComplaint(request):
+    session_id=request.session.get('public_id')
+    if not session_id:
+        return redirect('UserLogin') 
     if request.method=="POST":
         form=ComplaintForm(request.POST)
         if form.is_valid():
@@ -607,11 +633,17 @@ def ViewComplaints(request):
     return render(request,'admin/view_complaint.html',{'complaints':complaints})
 
 def ListComplaints(request):
+    session_id=request.session.get('public_id')
+    if not session_id:
+        return redirect('UserLogin') 
     user=get_object_or_404(Login,id=request.session['public_id'])
     complaints=Complaint.objects.filter(login_id=user)
     return render(request,'public/list_complaints.html',{'complaints':complaints})
 
 def EditComplaint(request,id):
+    session_id=request.session.get('public_id')
+    if not session_id:
+        return redirect('UserLogin') 
     complaint=get_object_or_404(Complaint,id=id)
     if request.method=="POST":
         form=ComplaintForm(request.POST,instance=complaint)
@@ -624,13 +656,18 @@ def EditComplaint(request,id):
     return render(request,'public/edit_complaint.html',{'complaints':complaints})
 
 def DeleteComplaint(request,id):
+    session_id=request.session.get('public_id')
+    if not session_id:
+        return redirect('UserLogin') 
     complaint=get_object_or_404(Complaint,id=id)
     complaint.delete()
     messages.success(request,'Complaint deleted successfully')
     return redirect('ListComplaints')
 
 def AllocatedVolList(request):
-    session_id=request.session['camp_id']
+    session_id=request.session.get('camp_id')
+    if not session_id:
+        return redirect('UserLogin')
     a=get_object_or_404(Camp,login_id=session_id)
     allocated_vol=Allocate.objects.filter(camp=a)
     return render(request,'camp/vol_allocated_list.html',{'allocated_vol':allocated_vol})
@@ -648,16 +685,21 @@ def ComplaintReply(request,id):
     return render(request,'admin/reply.html',{'form':form,'complaint':complaint})
 
 def ShowReply(request,id):
+    session_id=request.session.get('public_id')
+    if not session_id:
+        return redirect('UserLogin') 
     complaint=get_object_or_404(Complaint,id=id)
     return render(request,'public/view_reply.html',{'complaint':complaint})
 
 def ScheduleDuty(request,camp,volunteer):
-    print(volunteer)
+    session_id=request.session.get('camp_id')
+    if not session_id:
+        return redirect('UserLogin')
     vol=get_object_or_404(Volunteer,id=volunteer)
     print(vol)
     c=get_object_or_404(Camp,id=camp)
     if request.method == "POST":
-        alloc=get_object_or_404(Allocate,volunteer=vol)      #  volunteer is used because it specifies only 1 volunteer who has been assigned. But camp specifies all their required volunteers, so 'get() returned more than one Allocate' this exception occurs.
+        alloc=get_object_or_404(Allocate,volunteer=vol)
         if Allocate.objects.filter(camp=c,volunteer=vol).exists():
             alloc.duty_status="scheduled"  
             alloc.save()
@@ -674,6 +716,9 @@ def ScheduleDuty(request,camp,volunteer):
     return render(request,'camp/vol_duty_schedule.html',{'form':form})
 
 def FundAllocationRequest(request):
+    session_id=request.session.get('public_id')
+    if not session_id:
+        return redirect('UserLogin') 
     if request.method=="POST":
         form=FundAllocationForm(request.POST,request.FILES)
         if form.is_valid():
@@ -687,11 +732,17 @@ def FundAllocationRequest(request):
     return render(request,'public/fund_allocation.html',{'form':form})
 
 def FundAllocationRequestList(request):
+    session_id=request.session.get('public_id')
+    if not session_id:
+        return redirect('UserLogin') 
     user=get_object_or_404(Login,id=request.session['public_id'])
     requests=FundAllocationModel.objects.filter(login_id=user)
     return render(request,'public/fund_allocation_list.html',{'requests':requests})
 
 def FundAllocationRequestEdit(request,id):
+    session_id=request.session.get('public_id')
+    if not session_id:
+        return redirect('UserLogin') 
     req=get_object_or_404(FundAllocationModel,id=id)
     if request.method=="POST":
         form=FundAllocationForm(request.POST,request.FILES, instance=req)
@@ -703,6 +754,9 @@ def FundAllocationRequestEdit(request,id):
     return render(request,'public/edit_fund_allocation.html',{'form':form})
 
 def FundAllocationRequestDelete(request,id):
+    session_id=request.session.get('public_id')
+    if not session_id:
+        return redirect('UserLogin') 
     req=get_object_or_404(FundAllocationModel,id=id)
     req.delete()
     return redirect('FundAllocationRequestList')
@@ -711,24 +765,11 @@ def FundAllocationRequestView(request):
     requests=FundAllocationModel.objects.all()
     return render(request,'admin/fund_allocation_table.html',{'requests':requests})
      
-# def ScheduleNotify(request,camp):
-#     session_id=request.session['volunteer_id']
-#     a=get_object_or_404(Login,id=session_id)
-#     Volunteer=get_object_or_404(Volunteer,login_id=a)
-#     camp=get_object_or_404(Camp,id=camp)
-#     schedule=Duty.objects.filter(volunteer_id=Volunteer,camp_id=camp).first()
-#     if schedule:
-#         duty=schedule.duty
-#         print(duty)
-#         messages.success(request,f"Assigned Duty : {duty}")
-#         return render(request,'volunteer/notification.html',{'duty':duty})
-#     else:
-#         duty=None
-#         messages.warning(request,f"Your duty is not scheduled yet")
-#         return render(request,'volunteer/notification.html',{'duty':duty}) 
-
 
 def ReScheduleDuty(request,camp,volunteer):
+    session_id=request.session.get('camp_id')
+    if not session_id:
+        return redirect('UserLogin') 
     vol=get_object_or_404(Volunteer,id=volunteer)
     c=get_object_or_404(Camp,id=camp)
     realloc=get_object_or_404(Duty,volunteer_id=vol)
@@ -742,8 +783,10 @@ def ReScheduleDuty(request,camp,volunteer):
         form=DutyForm(instance=realloc)
     return render(request,'camp/vol_duty_reschedule.html',{'form':form})
 
-def ReportMissingPerson(request,id):               #       function to report missing person case in stations.
-    session_id=request.session['public_id']
+def ReportMissingPerson(request,id):
+    session_id=request.session.get('public_id')
+    if not session_id:
+        return redirect('UserLogin')
     a=get_object_or_404(Login,id=session_id)
     user=get_object_or_404(Public,login_id=a)
     b=get_object_or_404(Login,id=id)
@@ -762,8 +805,10 @@ def ReportMissingPerson(request,id):               #       function to report mi
     return render(request,'public/missing_report.html',{'form':form})
 
 
-def ViewMissingReports(request):                              #        To view missing persons by the station
-    session_id=request.session['station_id']
+def ViewMissingReports(request):
+    session_id=request.session.get('station_id')
+    if not session_id:
+        return redirect('UserLogin') 
     a=get_object_or_404(Police,login_id=session_id)
     reports=MissingPerson.objects.filter(station_id=a)
     return render(request,'police/missing_report_table.html',{'reports':reports}) 
@@ -797,6 +842,9 @@ def AllocateFund(request,id):
  
 
 def StationSearch(request):
+    session_id=request.session.get('public_id')
+    if not session_id:
+        return redirect('UserLogin')
     if request.method == "POST":
         query = request.POST.get('stationinfo')
         stations = Police.objects.filter(
@@ -810,6 +858,9 @@ def StationSearch(request):
         return render(request, 'public/station_search.html')
     
 def AddMissingStatus(request,id):
+    session_id=request.session.get('police_id')
+    if not session_id:
+        return redirect('UserLogin') 
     id=get_object_or_404(MissingPerson,id=id)
     if request.method == "POST":
        form=MissingPersonStatusForm(request.POST)
@@ -823,6 +874,9 @@ def AddMissingStatus(request,id):
     return render(request,'police/missing_case_status.html',{'form':form,'id':id})
 
 def EditMissingStatus(request,id):
+    session_id=request.session.get('police_id')
+    if not session_id:
+        return redirect('UserLogin') 
     id=get_object_or_404(MissingPerson,id=id)
     if request.method == "POST":
        form=MissingPersonStatusForm(request.POST,instance=id)
@@ -835,15 +889,20 @@ def EditMissingStatus(request,id):
         form=MissingPersonStatusForm(instance=id)
     return render(request,'police/missing_case_status.html',{'form':form })
 
-def DeleteMissingStatus(request,id):   # here request can be used for messages
+def DeleteMissingStatus(request,id):
+    session_id=request.session.get('police_id')
+    if not session_id:
+        return redirect('UserLogin')
     stat=get_object_or_404(MissingPerson,id=id)
     stat.status=None
     stat.save()
     return redirect('ViewMissingReports')
 
 
-def ViewMissingList(request):    # To view by public.
-    session_id=request.session['public_id']
+def ViewMissingList(request):
+    session_id=request.session.get('public_id')
+    if not session_id:
+        return redirect('UserLogin') 
     login=get_object_or_404(Login,id=session_id)
     public=get_object_or_404(Public,login_id=login)
     results=MissingPerson.objects.filter(public_id=public)
@@ -880,7 +939,7 @@ def DeleteEmergencyAlert(request,id):
     return redirect('EmergencyAlertList')
 
 
-def EmergencyAlertView(request):                         #     To view emergency messages by the public and station.
+def EmergencyAlertView(request):
     results=EmergencyAlert.objects.all()
     return render(request,'common/emergency_alert_view.html',{'results':results})
 
@@ -889,7 +948,9 @@ def TableCamp(request):
     return render(request,'public/camp_table_enq.html',{'camps':camps})
 
 def CampEnquiry(request,id):
-    session_id=request.session['public_id']
+    session_id=request.session.get('public_id')
+    if not session_id:
+        return redirect('UserLogin')
     camp_login=get_object_or_404(Login,id=id)
     public_id=get_object_or_404(Public,login_id=session_id)
     if request.method == "POST":
@@ -906,12 +967,17 @@ def CampEnquiry(request,id):
 
 
 def EnquiryTable(request):
-    session_id=request.session['camp_id']
+    session_id=request.session.get('camp_id')
+    if not session_id:
+        return redirect('UserLogin')
     id=get_object_or_404(Login,id=session_id)
     results=Enquiry.objects.filter(camp=id)
     return render(request,'camp/public_enq_table.html',{'results':results})
 
 def EnquiryReply(request,id):
+    session_id=request.session.get('camp_id')
+    if not session_id:
+        return redirect('UserLogin')
     id=get_object_or_404(Enquiry,id=id) 
     if request.method == "POST":
        form=EnquiryResponseForm(request.POST)
@@ -925,14 +991,18 @@ def EnquiryReply(request,id):
     return render(request,'camp/enq_response.html',{'form':form ,'id':id})
 
 def EnqResponseTable(request):
-    session_id=request.session['public_id']
+    session_id=request.session.get('public_id')
+    if not session_id:
+        return redirect('UserLogin')
     id=get_object_or_404(Login,id=session_id)
     p=get_object_or_404(Public,login_id=id)
     results=Enquiry.objects.filter(public=p)
     return render(request,'public/enq_response_table.html',{'results':results})
 
 def VehicleMissing(request,id):
-    session_id=request.session['public_id']
+    session_id=request.session.get('public_id')
+    if not session_id:
+        return redirect('UserLogin')
     public_id=get_object_or_404(Login,id=session_id)
     # vehicle_id=get_object_or_404(Login,id=public_id)
     station_id=get_object_or_404(Police,login_id=id)
@@ -949,13 +1019,18 @@ def VehicleMissing(request,id):
     return render(request,'public/vehicle_missing_form.html',{'form':form})
 
 
-def VehicleMissingReports(request):                              #        To view missing persons by the station
-    session_id=request.session['station_id']
+def VehicleMissingReports(request):
+    session_id=request.session.get('station_id')
+    if not session_id:
+        return redirect('UserLogin')
     a=get_object_or_404(Police,login_id=session_id)
     reports=Vehicle.objects.filter(police=a)
     return render(request,'police/vehicle_missing_table.html',{'reports':reports})
 
 def VehicleStatus(request,id):
+    session_id=request.session.get('station_id')
+    if not session_id:
+        return redirect('UserLogin')
     vehicle_id=get_object_or_404(Vehicle,id=id)
     if request.method == "POST":
         form=VehicleStatusForm(request.POST)
@@ -969,6 +1044,9 @@ def VehicleStatus(request,id):
     return render(request,'police/missing_case_status.html',{'form':form})
 
 def EditVehicleStatus(request,id):
+    session_id=request.session.get('station_id')
+    if not session_id:
+        return redirect('UserLogin')
     vehicle_id=get_object_or_404(Vehicle,id=id)
     if request.method == "POST":
         form=VehicleStatusForm(request.POST,instance=vehicle_id)
@@ -982,20 +1060,27 @@ def EditVehicleStatus(request,id):
     return render(request,'police/missing_case_status.html',{'form':form})
 
 def DeleteVehicleStatus(request,id):
+    session_id=request.session.get('station_id')
+    if not session_id:
+        return redirect('UserLogin')
     vehicle_id=get_object_or_404(Vehicle,id=id)
     vehicle_id.status=None
     vehicle_id.save()
     return redirect('VehicleMissingReports')
 
 def VehicleList(request):
-    session_id=request.session['public_id']
+    session_id=request.session.get('public_id')
+    if not session_id:
+        return redirect('UserLogin')
     id=get_object_or_404(Login,id=session_id)
     reports=Vehicle.objects.filter(public=id)
     return render(request,'public/missing_vehicle_list.html',{'reports':reports})
 
 
-def ComfirmPassCamp(request):            #     password updation for camp
-    session_id=request.session['camp_id']
+def ComfirmPassCamp(request):
+    session_id=request.session.get('camp_id')
+    if not session_id:
+        return redirect('UserLogin')
     id=get_object_or_404(Login,id=session_id)
     if request.method == "POST":
         form=ChangePasswordForm(request.POST)
@@ -1022,8 +1107,10 @@ def ComfirmPassCamp(request):            #     password updation for camp
     return render(request,'common/change_password.html',{'form':form})
 
 
-def ComfirmPassPublic(request):            #     password updation for public
-    session_id=request.session['public_id']
+def ComfirmPassPublic(request):
+    session_id=request.session.get('public_id')
+    if not session_id:
+        return redirect('UserLogin')
     id=get_object_or_404(Login,id=session_id)
     if request.method == "POST":
         form=ChangePasswordForm(request.POST)
@@ -1050,8 +1137,10 @@ def ComfirmPassPublic(request):            #     password updation for public
     return render(request,'common/change_password.html',{'form':form})
 
 
-def ComfirmPassVolunteer(request):            #     password updation for volunteer
-    session_id=request.session['volunteer_id']
+def ComfirmPassVolunteer(request):
+    session_id=request.session.get('volunteer_id')
+    if not session_id:
+        return redirect('UserLogin')
     id=get_object_or_404(Login,id=session_id)
     if request.method == "POST":
         form=ChangePasswordForm(request.POST)
@@ -1077,8 +1166,10 @@ def ComfirmPassVolunteer(request):            #     password updation for volunt
 
     return render(request,'common/change_password.html',{'form':form})
 
-def ComfirmPassStation(request):            #     password updation for station
-    session_id=request.session['station_id']
+def ComfirmPassStation(request):
+    session_id=request.session.get('station_id')
+    if not session_id:
+        return redirect('UserLogin')
     id=get_object_or_404(Login,id=session_id)
     if request.method == "POST":
         form=ChangePasswordForm(request.POST)
