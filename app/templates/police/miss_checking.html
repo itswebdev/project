@@ -1,105 +1,297 @@
+{% load static %}
+
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Missing Person Check</title>
-    <style>
-        body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background-color: #f8f9fa;
-            margin: 0;
-            padding: 20px;
-        }
+  <head>
+    <meta charset="utf-8" />
+    <meta content="width=device-width, initial-scale=1.0" name="viewport" />
+    <title>Camp</title>
+    <meta name="description" content="" />
+    <meta name="keywords" content="" />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css"
+      integrity="sha512-Evv84Mr4kqVGRNSgIGL/F/aIDqQb7xQ2vcrdIwxfjThSH8CSR7PBEakCr51Ck+w+/U6swU2Im1vVX0SVk9ABhg=="
+      crossorigin="anonymous"
+      referrerpolicy="no-referrer"
+    />
+    <link href="{% static "output.css" %}" rel="stylesheet">
+  </head>
 
-        form {
-            background-color: #fff;
-            padding: 20px;
-            border-radius: 8px;
-            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
-            max-width: 500px;
-            margin-bottom: 30px;
-        }
+  <body class="font-Poppins min-h-[100vh]">
+    <!-- header -->
+    <header class="relative">
+      <nav class="container flex items-center py-4 relative">
+        <!-- Logo -->
+        <img
+          id="navLogo"
+          class="w-[50px] transition-all duration-300"
+          src="{% static 'logo.png' %}"
+          alt="Logo"
+        />
+        <div class="py-1">
+          <h2 class="text-2xl font-Inter font-extrabold text-blue-800">
+            Disaster management System
+          </h2>
+        </div>
 
-        form button {
-            padding: 10px 20px;
-            background-color: #007bff;
-            color: white;
-            border: none;
-            border-radius: 5px;
-            cursor: pointer;
-        }
+        <!-- Desktop Navigation (visible on sm and up) -->
+        <ul
+          class="hidden sm:flex flex-1 justify-end items-center gap-12 text-bookmark-blue uppercase text-xs md:text-[16px]"
+        >
+          <li class="cursor-pointer">
+            <a href="{% url 'StationHome' %}">Home</a>
+          </li>
+          <li class="cursor-pointer">
+            <a href="{% url 'EditStation' %}">Profile</a>
+          </li>
+          <li>
+            <a href="{% url 'Logout' %}">
+              <button
+                class="cursor-pointer bg-gradient-to-r from-blue-700 to-blue-900 rounded-md px-4 py-2 text-bookmark-white"
+              >
+                Logout
+              </button>
+            </a>
+          </li>
+        </ul>
 
-        form button:hover {
-            background-color: #0056b3;
-        }
+        <!-- Mobile Toggle Icon (visible only on mobile) -->
+        <div
+          id="mobileToggle"
+          class="flex sm:hidden flex-1 justify-end cursor-pointer z-50"
+        >
+          <i class="text-2xl fas fa-bars"></i>
+        </div>
+      </nav>
+    </header>
 
-        h2 {
-            color: #343a40;
-        }
+    <!-- Mobile Navigation Drawer -->
+    <!-- 
+    The mobile menu is fixed with a top offset (here, top-16, adjust as needed to match your header height)
+    It starts with max-h-0 (hidden) and expands to max-h-96 when toggled.
+  -->
+    <div
+      id="mobileMenu"
+      class="sm:hidden fixed top-16 left-0 right-0 bg-white overflow-hidden transition-all duration-300 max-h-0 z-40"
+    >
+      <ul class="flex flex-col items-center gap-4 p-4">
+        <li>
+          z
+          <a href="{% url 'StationHome' %}" class="block py-2">Home</a>
+        </li>
+        <li>
+          <a href="{% url 'EditStation' %}" class="block py-2">Profile</a>
+        </li>
+        <li>
+          <a href="{% url 'Logout' %}" class="block py-2">Logout</a>
+        </li>
+      </ul>
+    </div>
 
-        ul {
-            list-style: none;
-            padding: 0;
-        }
-
-        li {
-            background-color: #fff;
-            border: 1px solid #dee2e6;
-            border-radius: 8px;
-            padding: 15px;
-            margin-bottom: 15px;
-            display: flex;
-            align-items: flex-start;
-        }
-
-        li img {
-            border-radius: 8px;
-            margin-right: 20px;
-            border: 1px solid #ccc;
-        }
-
-        li p {
-            margin: 4px 0;
-        }
-
-        .details {
-            flex: 1;
-        }
-
-        p.no-match {
-            color: #6c757d;
-            font-style: italic;
-        }
-    </style>
-</head>
-<body>
-
-    <form method="POST" enctype="multipart/form-data">
-        {% csrf_token %}
-        {{ form.as_p }}
+    <div class="container min-h-[80vh] mx-auto mt-10">
+      {% comment %}
+      <form method="POST" enctype="multipart/form-data">
+        {% csrf_token %} {{ form.as_p }}
         <button type="submit">Submit</button>
-    </form>
+      </form>
+      {% endcomment %}
 
-    {% if matches %}
-        <h2>Matching Records Found:</h2>
-        <ul>
+      <form method="POST" enctype="multipart/form-data" class="w-3/4 m-auto">
+        {% csrf_token %}
+        <h1 class="text-4xl text-center mb-12 text-blue-900 font-bold">
+          Compare photo with missing reports
+        </h1>
+
+        <div class="relative z-0 w-full mb-5 group">
+          <input
+            type="file"
+            name="pic"
+            accept="image/*"
+            required
+            id="id_pic"
+            class="custom-input peer"
+          />
+          <label for="id_pic" id="id_pic" class="custom-label">Photo:</label>
+        </div>
+
+        <div class="flex justify-center mt-6">
+          <button
+            type="submit"
+            class="w-1/4 text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
+          >
+            Submit
+          </button>
+        </div>
+      </form>
+      <div class="container">
+        {% if matches %}
+        <h2 class="text-2xl font-bold text-blue-800 mb-6">Matching Records Found:</h2>
+        <ul class="space-y-6">
             {% for person in matches %}
-                <li>
-                    <img src="{{ person.photo.url }}" alt="{{ person.name }}" width="150">
-                    <div class="details">
-                        <p><strong>Name:</strong> {{ person.name }}</p>
-                        <p><strong>Age:</strong> {{ person.age }}</p>
-                        <p><strong>Gender:</strong> {{ person.gender }}</p>
-                        <p><strong>Address:</strong> {{ person.address }}</p>
-                        <p><strong>Details:</strong> {{ person.other_details }}</p>
+                <li class="bg-white shadow-md rounded-xl p-4 border border-gray-200 hover:shadow-lg transition flex flex-col md:flex-row items-start md:items-center gap-4">
+                    <img src="{{ person.photo.url }}" alt="{{ person.name }}" class="w-40 h-40 object-cover rounded-lg border border-gray-300">
+                    <div class="details text-gray-800">
+                        <p class="mb-1"><strong class="text-blue-700">Name:</strong> {{ person.name }}</p>
+                        <p class="mb-1"><strong class="text-blue-700">Age:</strong> {{ person.age }}</p>
+                        <p class="mb-1"><strong class="text-blue-700">Gender:</strong> {{ person.gender }}</p>
+                        <p class="mb-1"><strong class="text-blue-700">Address:</strong> {{ person.address }}</p>
+                        <p class="mb-1"><strong class="text-blue-700">Details:</strong> {{ person.other_details }}</p>
                     </div>
                 </li>
             {% endfor %}
         </ul>
     {% else %}
-        <p class="no-match">No matching records found.</p>
+        <p class="text-gray-600 text-lg text-center font-medium mt-4">No matching records found.</p>
     {% endif %}
+    
+      </div>
+    </div>
+    <!-- footer  -->
+    <footer
+      class="relative bg-gradient-to-r from-blue-700 to-blue-900 mt-10 h-full w-full py-5"
+    >
+      <div
+        class="container flex flex-col items-center md:flex-row md:justify-center md:items-center"
+      >
+        <div
+          class="flex flex-1 flex-wrap items-center justify-center md:justify-start gap-12"
+        >
+          <img src="./imgs/logo-bookmark-white.png" alt="" />
+          <ul class="flex text-white uppercase gap-12">
+            <li class="cursor-pointer text-xs md:text-[16px]">Features</li>
+            <li class="cursor-pointer text-xs md:text-[16px]">Pricing</li>
+            <li class="cursor-pointer text-xs md:text-[16px]">Contact</li>
+          </ul>
+        </div>
+        <ul class="flex gap-10 mt-12 md:mt-0">
+          <li><i class="text-white text-4xl fab fa-instagram"></i></li>
+          <li><i class="text-white text-4xl fab fa-twitter"></i></li>
+          <li><i class="text-white text-4xl fab fa-x"></i></li>
+          <li><i class="text-white text-4xl fab fa-facebook-square"></i></li>
+        </ul>
+      </div>
+    </footer>
 
-</body>
+    <!-- JavaScript to toggle the mobile menu and logo visibility -->
+    <script>
+      const mobileToggle = document.getElementById("mobileToggle");
+      const mobileMenu = document.getElementById("mobileMenu");
+
+      mobileToggle.addEventListener("click", () => {
+        // If the mobile menu is closed, expand it; if open, collapse it.
+        if (mobileMenu.classList.contains("max-h-0")) {
+          mobileMenu.classList.remove("max-h-0");
+          mobileMenu.classList.add("max-h-96");
+        } else {
+          mobileMenu.classList.remove("max-h-96");
+          mobileMenu.classList.add("max-h-0");
+        }
+      });
+    </script>
+  </body>
 </html>
+
+{% comment %} <!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Missing Person Check</title>
+    <style>
+      body {
+        font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+        background-color: #f8f9fa;
+        margin: 0;
+        padding: 20px;
+      }
+
+      form {
+        background-color: #fff;
+        padding: 20px;
+        border-radius: 8px;
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+        max-width: 500px;
+        margin-bottom: 30px;
+      }
+
+      form button {
+        padding: 10px 20px;
+        background-color: #007bff;
+        color: white;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+      }
+
+      form button:hover {
+        background-color: #0056b3;
+      }
+
+      h2 {
+        color: #343a40;
+      }
+
+      ul {
+        list-style: none;
+        padding: 0;
+      }
+
+      li {
+        background-color: #fff;
+        border: 1px solid #dee2e6;
+        border-radius: 8px;
+        padding: 15px;
+        margin-bottom: 15px;
+        display: flex;
+        align-items: flex-start;
+      }
+
+      li img {
+        border-radius: 8px;
+        margin-right: 20px;
+        border: 1px solid #ccc;
+      }
+
+      li p {
+        margin: 4px 0;
+      }
+
+      .details {
+        flex: 1;
+      }
+
+      p.no-match {
+        color: #6c757d;
+        font-style: italic;
+      }
+    </style>
+  </head>
+  <body>
+    <form method="POST" enctype="multipart/form-data">
+      {% csrf_token %} {{ form.as_p }}
+      <button type="submit">Submit</button>
+    </form>
+
+    {% if matches %}
+    <h2>Matching Records Found:</h2>
+    <ul>
+      {% for person in matches %}
+      <li>
+        <img src="{{ person.photo.url }}" alt="{{ person.name }}" width="150" />
+        <div class="details">
+          <p><strong>Name:</strong> {{ person.name }}</p>
+          <p><strong>Age:</strong> {{ person.age }}</p>
+          <p><strong>Gender:</strong> {{ person.gender }}</p>
+          <p><strong>Address:</strong> {{ person.address }}</p>
+          <p><strong>Details:</strong> {{ person.other_details }}</p>
+        </div>
+      </li>
+      {% endfor %}
+    </ul>
+    {% else %}
+    <p class="no-match">No matching records found.</p>
+    {% endif %}
+  </body>
+</html>
+{% endcomment %}
