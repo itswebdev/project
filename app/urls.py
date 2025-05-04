@@ -130,7 +130,7 @@ urlpatterns = [
     path('PerDayReport',views.PerDayReport,name="PerDayReport"),
 
     path('send_otp_view',views.send_otp_view,name="send_otp_view"),
-    path('verify_otp_view',views.verify_otp_view,name="verify_otp_view"),
+    path('verify_otp_view/<str:email>/',views.verify_otp_view,name="verify_otp_view"),
     path('reset_password_view',views.reset_password_view,name="reset_password_view"),
     
 

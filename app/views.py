@@ -116,22 +116,34 @@ def VolunteerTable(request):
     # camp home page
 
 def CampHome(request):
+    id=request.session.get('camp_id') 
+    if not id:
+        return redirect('UserLogin')  
     return render(request,'camp/camp.html')
 
     # station home page
 
 def StationHome(request):
+    id=request.session.get('station_id') 
+    if not id:
+        return redirect('UserLogin')  
     return render(request,'police/station.html')
 
     # public home page
 
 def PublicHome(request):
+    id=request.session.get('public_id') 
+    if not id:
+        return redirect('UserLogin')  
     return render(request,'public/public.html')
 
     
     # volunteer home page
 
 def VolunteerHome(request):
+    id=request.session.get('volunteer_id') 
+    if not id:
+        return redirect('UserLogin')  
     return render(request,'volunteer/volunteer.html')
 
 
@@ -234,7 +246,7 @@ def EditPublic(request):
         else:
             login=LoginEditForm(instance=user)
             form=PublicForm(instance=public)
-        return render(request,'common/edit_profile.html',{'form':form,'login':login})
+        return render(request,'public/edit_profile.html',{'form':form,'login':login})
    
 
     # volunteer profile editing
@@ -1305,14 +1317,14 @@ def send_otp_view(request):
                     fail_silently=False  # Enable error reporting
 
                 )
-                return redirect('verify_otp_view')
+                return redirect('verify_otp_view',email=email)  # URL for OTP verification
             except Login.DoesNotExist:
                 form.add_error('email', 'No user with this email.')
     else:
         form = EmailForm()
     return render(request, 'common/send_otp.html', {'form': form})
 
-def verify_otp_view(request):
+def verify_otp_view(request,email):
     if request.method == 'POST':
         form = OTPForm(request.POST)
         if form.is_valid():
@@ -1330,7 +1342,7 @@ def verify_otp_view(request):
                 form.add_error('email', 'No user with this email.')
     else:
         form = OTPForm()
-    return render(request, 'common/verify_otp.html', {'form': form})
+    return render(request, 'common/verify_otp.html', {'form': form,'email':email})
 
 
 def reset_password_view(request):
