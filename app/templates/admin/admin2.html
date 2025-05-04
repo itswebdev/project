@@ -50,14 +50,7 @@
         <div class="sidebar-logo">
           <!-- Logo Header -->
           <div class="logo-header" data-background-color="dark">
-            <a href="index.html" class="logo">
-              <img
-                src="assets/img/kaiadmin/logo_light.svg"
-                alt="navbar brand"
-                class="navbar-brand"
-                height="20"
-              />
-            </a>
+            
             <div class="nav-toggle">
               <button class="btn btn-toggle toggle-sidebar">
                 <i class="gg-menu-right"></i>
@@ -75,105 +68,34 @@
         <div class="sidebar-wrapper scrollbar scrollbar-inner">
           <div class="sidebar-content">
             <ul class="nav nav-secondary">
-              <li class="nav-item active">
-                <a
-                  data-bs-toggle="collapse"
-                  href="#dashboard"
-                  class="collapsed"
-                  aria-expanded="false"
-                >
-                  <i class="fas fa-home"></i>
-                  <p>Dashboard</p>
-                  <span class="caret"></span>
-                </a>
-                <div class="collapse" id="dashboard">
-                  <ul class="nav nav-collapse">
-                    <li>
-                      <a href="../demo1/index.html">
-                        <span class="sub-item">Dashboard 1</span>
-                      </a>
-                    </li>
-                  </ul>
-                </div>
-              </li>
+              
               <li class="nav-section">
                 <span class="sidebar-mini-icon">
                   <i class="fa fa-ellipsis-h"></i>
                 </span>
-                <h4 class="text-section">Components</h4>
-              </li>
-              <li class="nav-item">
-                <a data-bs-toggle="collapse" href="#base">
-                  <i class="fas fa-layer-group"></i>
-                  <p>Base</p>
-                  <span class="caret"></span>
-                </a>
-                <div class="collapse" id="base">
-                  <ul class="nav nav-collapse">
-                    <li>
-                      <a href="components/avatars.html">
-                        <span class="sub-item">Avatars</span>
-                      </a>
-                    </li>
-                    <li>
-                      <a href="components/buttons.html">
-                        <span class="sub-item">Buttons</span>
-                      </a>
-                    </li>
-                    <li>
-                      <a href="components/gridsystem.html">
-                        <span class="sub-item">Grid System</span>
-                      </a>
-                    </li>
-                    <li>
-                      <a href="components/panels.html">
-                        <span class="sub-item">Panels</span>
-                      </a>
-                    </li>
-                    <li>
-                      <a href="components/notifications.html">
-                        <span class="sub-item">Notifications</span>
-                      </a>
-                    </li>
-                    <li>
-                      <a href="components/sweetalert.html">
-                        <span class="sub-item">Sweet Alert</span>
-                      </a>
-                    </li>
-                    <li>
-                      <a href="components/font-awesome-icons.html">
-                        <span class="sub-item">Font Awesome Icons</span>
-                      </a>
-                    </li>
-                    <li>
-                      <a href="components/simple-line-icons.html">
-                        <span class="sub-item">Simple Line Icons</span>
-                      </a>
-                    </li>
-                    <li>
-                      <a href="components/typography.html">
-                        <span class="sub-item">Typography</span>
-                      </a>
-                    </li>
-                  </ul>
-                </div>
+                <h4 class="text-section">Manage</h4>
               </li>
               <li class="nav-item">
                 <a data-bs-toggle="collapse" href="#sidebarLayouts">
                   <i class="fas fa-th-list"></i>
-                  <p>Sidebar Layouts</p>
+                  <p>Camps</p>
                   <span class="caret"></span>
                 </a>
                 <div class="collapse" id="sidebarLayouts">
                   <ul class="nav nav-collapse">
                     <li>
-                      <a href="sidebar-style-2.html">
-                        <span class="sub-item">Sidebar Style 2</span>
+                      <a href="{% url 'CampNeedsTable' %}">
+                        <span class="sub-item">Camp Needs</span>
                       </a>
                     </li>
                     <li>
-                      <a href="icon-menu.html">
-                        <span class="sub-item">Icon Menu</span>
+                      <a href="{% url 'CampAlertTable' %}">
+                        <span class="sub-item">Camp Alerts</span>
+                      </a>
+                    </li>
+                    <li>
+                      <a href="{% url 'VolunteerReqTable' %}">
+                        <span class="sub-item">Volunteer requests</span>
                       </a>
                     </li>
                   </ul>
@@ -195,32 +117,6 @@
                     <li>
                       <a href="{% url 'FundAllocationRequestView' %}">
                         <span class="sub-item">Fund Allocation</span>
-                      </a>
-                    </li>
-                  </ul>
-                </div>
-              </li>
-              <li class="nav-item">
-                <a data-bs-toggle="collapse" href="#forms">
-                  <i class="fas fa-pen-square"></i>
-                  <p>Camps</p>
-                  <span class="caret"></span>
-                </a>
-                <div class="collapse" id="forms">
-                  <ul class="nav nav-collapse">
-                    <li>
-                      <a href="{% url 'CampNeedsTable' %}">
-                        <span class="sub-item">Camp Needs</span>
-                      </a>
-                    </li>
-                    <li>
-                      <a href="{% url 'CampAlertTable' %}">
-                        <span class="sub-item">Camp Alerts</span>
-                      </a>
-                    </li>
-                    <li>
-                      <a href="{% url 'VolunteerReqTable' %}">
-                        <span class="sub-item">Volunteer requests</span>
                       </a>
                     </li>
                   </ul>
@@ -252,113 +148,6 @@
                     <li>
                       <a href="{% url 'VolunteerTable' %}" >
                         <span class="sub-item">Volunteers</span>
-                      </a>
-                    </li>
-                  </ul>
-                </div>
-              </li>
-              <li class="nav-item">
-                <a data-bs-toggle="collapse" href="#maps">
-                  <i class="fas fa-map-marker-alt"></i>
-                  <p>Maps</p>
-                  <span class="caret"></span>
-                </a>
-                <div class="collapse" id="maps">
-                  <ul class="nav nav-collapse">
-                    <li>
-                      <a href="maps/googlemaps.html">
-                        <span class="sub-item">Google Maps</span>
-                      </a>
-                    </li>
-                    <li>
-                      <a href="maps/jsvectormap.html">
-                        <span class="sub-item">Jsvectormap</span>
-                      </a>
-                    </li>
-                  </ul>
-                </div>
-              </li>
-              <li class="nav-item">
-                <a data-bs-toggle="collapse" href="#charts">
-                  <i class="far fa-chart-bar"></i>
-                  <p>Charts</p>
-                  <span class="caret"></span>
-                </a>
-                <div class="collapse" id="charts">
-                  <ul class="nav nav-collapse">
-                    <li>
-                      <a href="charts/charts.html">
-                        <span class="sub-item">Chart Js</span>
-                      </a>
-                    </li>
-                    <li>
-                      <a href="charts/sparkline.html">
-                        <span class="sub-item">Sparkline</span>
-                      </a>
-                    </li>
-                  </ul>
-                </div>
-              </li>
-              <li class="nav-item">
-                <a href="widgets.html">
-                  <i class="fas fa-desktop"></i>
-                  <p>Widgets</p>
-                  <span class="badge badge-success">4</span>
-                </a>
-              </li>
-              <li class="nav-item">
-                <a href="../../documentation/index.html">
-                  <i class="fas fa-file"></i>
-                  <p>Camp Needs</p>
-                  {% comment %} <span class="badge badge-secondary">1</span> {% endcomment %}
-                </a>
-              </li>
-              <li class="nav-item">
-                <a data-bs-toggle="collapse" href="#submenu">
-                  <i class="fas fa-bars"></i>
-                  <p>Menu Levels</p>
-                  <span class="caret"></span>
-                </a>
-                <div class="collapse" id="submenu">
-                  <ul class="nav nav-collapse">
-                    <li>
-                      <a data-bs-toggle="collapse" href="#subnav1">
-                        <span class="sub-item">Level 1</span>
-                        <span class="caret"></span>
-                      </a>
-                      <div class="collapse" id="subnav1">
-                        <ul class="nav nav-collapse subnav">
-                          <li>
-                            <a href="#">
-                              <span class="sub-item">Level 2</span>
-                            </a>
-                          </li>
-                          <li>
-                            <a href="#">
-                              <span class="sub-item">Level 2</span>
-                            </a>
-                          </li>
-                        </ul>
-                      </div>
-                    </li>
-                    <li>
-                      <a data-bs-toggle="collapse" href="#subnav2">
-                        <span class="sub-item">Level 1</span>
-                        <span class="caret"></span>
-                      </a>
-                      <div class="collapse" id="subnav2">
-                        <ul class="nav nav-collapse subnav">
-                          <li>
-                            <a href="#">
-                              <span class="sub-item">Level 2</span>
-                            </a>
-                          </li>
-                        </ul>
-                      </div>
-                    </li>
-                    <li>
-                      <a href="#">
-                        <span class="sub-item">Level 1</span>
                       </a>
                     </li>
                   </ul>
@@ -623,74 +412,7 @@
                   >
                     <i class="fas fa-layer-group"></i>
                   </a>
-                  <div class="dropdown-menu quick-actions animated fadeIn">
-                    <div class="quick-actions-header">
-                      <span class="title mb-1">Quick Actions</span>
-                      <span class="subtitle op-7">Shortcuts</span>
-                    </div>
-                    <div class="quick-actions-scroll scrollbar-outer">
-                      <div class="quick-actions-items">
-                        <div class="row m-0">
-                          <a class="col-6 col-md-4 p-0" href="#">
-                            <div class="quick-actions-item">
-                              <div class="avatar-item bg-danger rounded-circle">
-                                <i class="far fa-calendar-alt"></i>
-                              </div>
-                              <span class="text">Calendar</span>
-                            </div>
-                          </a>
-                          <a class="col-6 col-md-4 p-0" href="#">
-                            <div class="quick-actions-item">
-                              <div
-                                class="avatar-item bg-warning rounded-circle"
-                              >
-                                <i class="fas fa-map"></i>
-                              </div>
-                              <span class="text">Maps</span>
-                            </div>
-                          </a>
-                          <a class="col-6 col-md-4 p-0" href="#">
-                            <div class="quick-actions-item">
-                              <div class="avatar-item bg-info rounded-circle">
-                                <i class="fas fa-file-excel"></i>
-                              </div>
-                              <span class="text">Reports</span>
-                            </div>
-                          </a>
-                          <a class="col-6 col-md-4 p-0" href="#">
-                            <div class="quick-actions-item">
-                              <div
-                                class="avatar-item bg-success rounded-circle"
-                              >
-                                <i class="fas fa-envelope"></i>
-                              </div>
-                              <span class="text">Emails</span>
-                            </div>
-                          </a>
-                          <a class="col-6 col-md-4 p-0" href="#">
-                            <div class="quick-actions-item">
-                              <div
-                                class="avatar-item bg-primary rounded-circle"
-                              >
-                                <i class="fas fa-file-invoice-dollar"></i>
-                              </div>
-                              <span class="text">Invoice</span>
-                            </div>
-                          </a>
-                          <a class="col-6 col-md-4 p-0" href="#">
-                            <div class="quick-actions-item">
-                              <div
-                                class="avatar-item bg-secondary rounded-circle"
-                              >
-                                <i class="fas fa-credit-card"></i>
-                              </div>
-                              <span class="text">Payments</span>
-                            </div>
-                          </a>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
+                  
                 </li>
 
                 <li class="nav-item topbar-user dropdown hidden-caret">
@@ -760,11 +482,8 @@
             >
               <div>
                 <h3 class="fw-bold mb-3">Dashboard</h3>
-                <h6 class="op-7 mb-2">Free Bootstrap 5 Admin Dashboard</h6>
-              </div>
-              <div class="ms-md-auto py-2 py-md-0">
-                <a href="#" class="btn btn-label-info btn-round me-2">Manage</a>
-                <a href="#" class="btn btn-primary btn-round">Add Customer</a>
+                <h6 class="op-7 mb-2">Disester management System </h6>
+                <h3>User Counts</h3>
               </div>
             </div>
             <div class="row">
@@ -781,8 +500,8 @@
                       </div>
                       <div class="col col-stats ms-3 ms-sm-0">
                         <div class="numbers">
-                          <p class="card-category">Visitors</p>
-                          <h4 class="card-title">1,294</h4>
+                          <p class="card-category">Camps</p>
+                          <h4 class="card-title">{{ camp_count }}</h4>
                         </div>
                       </div>
                     </div>
@@ -802,8 +521,8 @@
                       </div>
                       <div class="col col-stats ms-3 ms-sm-0">
                         <div class="numbers">
-                          <p class="card-category">Subscribers</p>
-                          <h4 class="card-title">1303</h4>
+                          <p class="card-category">Police Stations</p>
+                          <h4 class="card-title">{{ police_station_count }}</h4>
                         </div>
                       </div>
                     </div>
@@ -823,8 +542,8 @@
                       </div>
                       <div class="col col-stats ms-3 ms-sm-0">
                         <div class="numbers">
-                          <p class="card-category">Sales</p>
-                          <h4 class="card-title">$ 1,345</h4>
+                          <p class="card-category">Public</p>
+                          <h4 class="card-title">{{ public_user_count }}</h4>
                         </div>
                       </div>
                     </div>
@@ -844,8 +563,8 @@
                       </div>
                       <div class="col col-stats ms-3 ms-sm-0">
                         <div class="numbers">
-                          <p class="card-category">Order</p>
-                          <h4 class="card-title">576</h4>
+                          <p class="card-category">Volunteer</p>
+                          <h4 class="card-title">{{ volunteer_count }}</h4>
                         </div>
                       </div>
                     </div>
@@ -888,196 +607,7 @@
         </footer>
       </div>
 
-      <!-- Custom template | don't include it in your project! -->
-      <div class="custom-template">
-        <div class="title">Settings</div>
-        <div class="custom-content">
-          <div class="switcher">
-            <div class="switch-block">
-              <h4>Logo Header</h4>
-              <div class="btnSwitch">
-                <button
-                  type="button"
-                  class="selected changeLogoHeaderColor"
-                  data-color="dark"
-                ></button>
-                <button
-                  type="button"
-                  class="changeLogoHeaderColor"
-                  data-color="blue"
-                ></button>
-                <button
-                  type="button"
-                  class="changeLogoHeaderColor"
-                  data-color="purple"
-                ></button>
-                <button
-                  type="button"
-                  class="changeLogoHeaderColor"
-                  data-color="light-blue"
-                ></button>
-                <button
-                  type="button"
-                  class="changeLogoHeaderColor"
-                  data-color="green"
-                ></button>
-                <button
-                  type="button"
-                  class="changeLogoHeaderColor"
-                  data-color="orange"
-                ></button>
-                <button
-                  type="button"
-                  class="changeLogoHeaderColor"
-                  data-color="red"
-                ></button>
-                <button
-                  type="button"
-                  class="changeLogoHeaderColor"
-                  data-color="white"
-                ></button>
-                <br />
-                <button
-                  type="button"
-                  class="changeLogoHeaderColor"
-                  data-color="dark2"
-                ></button>
-                <button
-                  type="button"
-                  class="changeLogoHeaderColor"
-                  data-color="blue2"
-                ></button>
-                <button
-                  type="button"
-                  class="changeLogoHeaderColor"
-                  data-color="purple2"
-                ></button>
-                <button
-                  type="button"
-                  class="changeLogoHeaderColor"
-                  data-color="light-blue2"
-                ></button>
-                <button
-                  type="button"
-                  class="changeLogoHeaderColor"
-                  data-color="green2"
-                ></button>
-                <button
-                  type="button"
-                  class="changeLogoHeaderColor"
-                  data-color="orange2"
-                ></button>
-                <button
-                  type="button"
-                  class="changeLogoHeaderColor"
-                  data-color="red2"
-                ></button>
-              </div>
-            </div>
-            <div class="switch-block">
-              <h4>Navbar Header</h4>
-              <div class="btnSwitch">
-                <button
-                  type="button"
-                  class="changeTopBarColor"
-                  data-color="dark"
-                ></button>
-                <button
-                  type="button"
-                  class="changeTopBarColor"
-                  data-color="blue"
-                ></button>
-                <button
-                  type="button"
-                  class="changeTopBarColor"
-                  data-color="purple"
-                ></button>
-                <button
-                  type="button"
-                  class="changeTopBarColor"
-                  data-color="light-blue"
-                ></button>
-                <button
-                  type="button"
-                  class="changeTopBarColor"
-                  data-color="green"
-                ></button>
-                <button
-                  type="button"
-                  class="changeTopBarColor"
-                  data-color="orange"
-                ></button>
-                <button
-                  type="button"
-                  class="changeTopBarColor"
-                  data-color="red"
-                ></button>
-                <button
-                  type="button"
-                  class="selected changeTopBarColor"
-                  data-color="white"
-                ></button>
-                <br />
-                <button
-                  type="button"
-                  class="changeTopBarColor"
-                  data-color="dark2"
-                ></button>
-                <button
-                  type="button"
-                  class="changeTopBarColor"
-                  data-color="blue2"
-                ></button>
-                <button
-                  type="button"
-                  class="changeTopBarColor"
-                  data-color="purple2"
-                ></button>
-                <button
-                  type="button"
-                  class="changeTopBarColor"
-                  data-color="light-blue2"
-                ></button>
-                <button
-                  type="button"
-                  class="changeTopBarColor"
-                  data-color="green2"
-                ></button>
-                <button
-                  type="button"
-                  class="changeTopBarColor"
-                  data-color="orange2"
-                ></button>
-                <button
-                  type="button"
-                  class="changeTopBarColor"
-                  data-color="red2"
-                ></button>
-              </div>
-            </div>
-            <div class="switch-block">
-              <h4>Sidebar</h4>
-              <div class="btnSwitch">
-                <button
-                  type="button"
-                  class="changeSideBarColor"
-                  data-color="white"
-                ></button>
-                <button
-                  type="button"
-                  class="selected changeSideBarColor"
-                  data-color="dark"
-                ></button>
-                <button
-                  type="button"
-                  class="changeSideBarColor"
-                  data-color="dark2"
-                ></button>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
+
       <!-- End Custom template -->
     </div>
     <!--   Core JS Files   -->

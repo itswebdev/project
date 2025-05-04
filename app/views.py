@@ -6,6 +6,8 @@ from django.db.models import Q
 from django.urls import reverse
 import random
 import datetime
+from .utils import get_user_counts_context
+from django.db.models import Count
 from django.core.mail import send_mail
 
 # Create your views here.
@@ -98,20 +100,29 @@ def ViewAdmin(request):
     return render(request,'admin.html')
 
 def CampTable(request):
+    context = get_user_counts_context()
     camps=Camp.objects.all()
-    return render(request,'camp/camp_table.html',{'camps':camps})
+    context['camps'] = camps
+    return render(request,'camp/camp_table.html',context)
 
 def StationTable(request):
-     stations=Police.objects.all()
-     return render(request,'police/station_table.html',{'stations':stations})
+    context = get_user_counts_context()
+    stations=Police.objects.all()
+    context['stations'] = stations
+    return render(request,'police/station_table.html',context)
 
 def PublicTable(request):
+    context = get_user_counts_context()
     publics=Public.objects.all()
-    return render(request,'public/public_table.html',{'publics':publics}) 
+    context['publics'] = publics
+
+    return render(request,'public/public_table.html',context) 
  
 def VolunteerTable(request):
+    context = get_user_counts_context()
     volunteers=Volunteer.objects.all()
-    return render(request,'volunteer/volunteer_table.html',{'volunteers':volunteers})
+    context['volunteers'] = volunteers
+    return render(request,'volunteer/volunteer_table.html',context)
 
     # camp home page
 
@@ -273,7 +284,8 @@ def EditVolunteer(request):
     # admin page view 2
 
 def ViewAdmin2(request):
-    return render(request,'admin/admin2.html')
+    context = get_user_counts_context()
+    return render(request,'admin/admin2.html',context)
 
     #  Camp User Registration  
 
@@ -374,8 +386,10 @@ def CampNeedsSubmit(request):
     return render(request,'camp/camp_needs.html',{'form':form})
 
 def CampNeedsTable(request):
+    context = get_user_counts_context()
     needs=CampNeeds.objects.all()
-    return render(request,'admin/camp_needs_table.html',{'needs':needs})
+    context['needs'] = needs
+    return render(request,'admin/camp_needs_table.html',context)
 
 def NeedsViewTable(request):
     session_id=request.session.get('camp_id')
@@ -494,7 +508,9 @@ def CampAlerts(request):
 
 def CampAlertTable(request):
     alerts=CampAlert.objects.all()
-    return render(request,'admin/camp_alert_table.html',{'alerts':alerts})
+    context = get_user_counts_context()
+    context['alerts'] = alerts
+    return render(request,'admin/camp_alert_table.html',context)
 
 def AlertCampTable(request):
     session_id=request.session['camp_id']                            #  getting the current session id .
@@ -526,7 +542,9 @@ def VolunteerReq(request):
 
 def VolunteerReqTable(request):
     requests=VolunteerRequest.objects.all()
-    return render(request,'admin/volunteer_req_table.html',{'requests':requests})
+    context = get_user_counts_context()
+    context['requests'] = requests
+    return render(request,'admin/volunteer_req_table.html',context)
 
 def ReqVolunteerTable(request):
     session_id=request.session.get('camp_id')
@@ -644,7 +662,9 @@ def PublicComplaint(request):
 
 def ViewComplaints(request):
     complaints=Complaint.objects.all()
-    return render(request,'admin/view_complaint.html',{'complaints':complaints})
+    context = get_user_counts_context()
+    context['complaints'] = complaints
+    return render(request,'admin/view_complaint.html',context)
 
 def ListComplaints(request):
     session_id=request.session.get('public_id')
@@ -776,8 +796,10 @@ def FundAllocationRequestDelete(request,id):
     return redirect('FundAllocationRequestList')
 
 def FundAllocationRequestView(request):
+    context = get_user_counts_context()
     requests=FundAllocationModel.objects.all()
-    return render(request,'admin/fund_allocation_table.html',{'requests':requests})
+    context['requests'] = requests
+    return render(request,'admin/fund_allocation_table.html',context)
      
 
 def ReScheduleDuty(request,camp,volunteer):
@@ -1319,7 +1341,7 @@ def send_otp_view(request):
                 )
                 return redirect('verify_otp_view',email=email)  # URL for OTP verification
             except Login.DoesNotExist:
-                form.add_error('email', 'No user with this email.')
+                messages.error(request,"No user with this email.")
     else:
         form = EmailForm()
     return render(request, 'common/send_otp.html', {'form': form})
