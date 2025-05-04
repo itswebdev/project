@@ -14,7 +14,7 @@
   </head>
 
 
-  <body class="font-Poppins min-h-full">
+  <body class="font-Poppins min-h-[100vh]">
 
    <!-- header -->
    <header class="relative">
@@ -126,6 +126,16 @@
           <h3 class="text-center">Search Members</h3>
         </div>
         <a class="w-full" href="{% url "SearchCampPerson" %}">
+          <button class="cursor-pointer bg-gradient-to-r from-blue-700 to-blue-900 w-full py-3 text-xl rounded-md text-bookmark-white">Click</button>
+        </a>
+      </div>
+
+      <div class="flex flex-col items-center gap-4 py-6 px-6 rounded-md shadow-md  border">
+        <div class="w-full flex justify-center items-center gap-4">
+          <img class="w-2/6"  src="{% static "folder.svg" %}" alt="IMG">
+          <h3 class="text-center">Inventory Management</h3>
+        </div>
+        <a class="w-full" href="{% url "ViewProduct" %}">
           <button class="cursor-pointer bg-gradient-to-r from-blue-700 to-blue-900 w-full py-3 text-xl rounded-md text-bookmark-white">Click</button>
         </a>
       </div>

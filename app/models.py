@@ -172,7 +172,7 @@ class Product(models.Model):
 
 class ProductUsage(models.Model):
     current_date = models.DateTimeField(auto_now_add=True)
-    prod_quantity = models.TextField()
+    prod_quantity = models.IntegerField()
     prod_id = models.ForeignKey(Product,on_delete=models.CASCADE,null=True,blank=True)
     camp_id=models.ForeignKey(Login,on_delete=models.CASCADE,null=True,blank=True)
 

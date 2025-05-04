@@ -5,6 +5,8 @@ from .models import *
 from django.db.models import Q
 from django.urls import reverse
 import random
+import datetime
+from django.core.mail import send_mail
 
 # Create your views here.
 
@@ -1206,6 +1208,7 @@ def AddProduct(request):
             a.camp_id=camp
             a.save()
             messages.success(request,"Product added successfully.")
+            return redirect('ViewProduct')
 
     else:
         form=ProductForm()
@@ -1453,5 +1456,4 @@ def misschecking(request):
 
     else:
         form = misscheck()
-
     return render(request, 'police/miss_checking.html', {'form': form})

@@ -1,15 +1,131 @@
+{% load static %}
+
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
-</head>
-<body>
-    <form method="post">
+  <head>
+    <meta charset="utf-8" />
+    <meta content="width=device-width, initial-scale=1.0" name="viewport" />
+    <title>Camp</title>
+    <meta name="description" content="" />
+    <meta name="keywords" content="" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css" integrity="sha512-Evv84Mr4kqVGRNSgIGL/F/aIDqQb7xQ2vcrdIwxfjThSH8CSR7PBEakCr51Ck+w+/U6swU2Im1vVX0SVk9ABhg==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link href="{% static "output.css" %}" rel="stylesheet">
+
+  </head>
+
+
+  <body class="font-Poppins min-h-[100vh]">
+
+   <!-- header -->
+   <header class="relative">
+    <nav class="container flex items-center py-4 relative">
+      <!-- Logo -->
+      <img id="navLogo" class="w-[50px] transition-all duration-300" src="{% static 'logo.png' %}" alt="Logo">
+      <div class="py-1">
+        <h2 class="text-2xl font-Inter font-extrabold text-blue-800">Disaster management System</h2>
+      </div>
+
+      <!-- Desktop Navigation (visible on sm and up) -->
+      <ul class="hidden sm:flex flex-1 justify-end items-center gap-12 text-bookmark-blue uppercase text-xs md:text-[16px]">
+        <li class="cursor-pointer">
+          <a href="{% url 'CampHome' %}">Home</a>
+        </li>
+        <li class="cursor-pointer">
+          <a href="{% url 'EditCamp' %}">Profile</a>
+        </li>
+        <li>
+          <a href="{% url 'Logout' %}">
+            <button class="cursor-pointer bg-gradient-to-r from-blue-700 to-blue-900 rounded-md px-4 py-2 text-bookmark-white">
+              Logout
+            </button>
+          </a>
+        </li>
+      </ul>
+
+      <!-- Mobile Toggle Icon (visible only on mobile) -->
+      <div id="mobileToggle" class="flex sm:hidden flex-1 justify-end cursor-pointer z-50">
+        <i class="text-2xl fas fa-bars"></i>
+      </div>
+    </nav>
+  </header>
+
+  <!-- Mobile Navigation Drawer -->
+  <!-- 
+    The mobile menu is fixed with a top offset (here, top-16, adjust as needed to match your header height)
+    It starts with max-h-0 (hidden) and expands to max-h-96 when toggled.
+  -->
+  <div id="mobileMenu"
+       class="sm:hidden fixed top-16 left-0 right-0 bg-white overflow-hidden transition-all duration-300 max-h-0 z-40">
+    <ul class="flex flex-col items-center gap-4 p-4">
+      <li>
+        <a href="{% url 'CampHome' %}" class="block py-2">Home</a>
+      </li>
+      <li>
+        <a href="{% url 'EditCamp' %}" class="block py-2">Profile</a>
+      </li>
+      <li>
+        <a href="{% url 'Logout' %}" class="block py-2">Logout</a>
+      </li>
+    </ul>
+  </div>
+
+<div class="container min-h-[80vh] w-2/4">
+    <form method="post" class="max-w-md mx-auto bg-white p-6 rounded-lg shadow-md space-y-4">
         {% csrf_token %}
-        {{ form.as_p }}
-        <button type="submit">submit</button>
-    </form>
-</body>
-</html>
+        
+        <div>
+          <label for="id_prod_quantity" class="block text-sm font-semibold text-gray-700 mb-1">Prod quantity:</label>
+          <input type="number" name="prod_quantity" id="id_prod_quantity" required
+            class="w-full rounded-md border border-gray-300 px-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-700 focus:border-blue-700 shadow-sm" />
+        </div>
+      
+        <div>
+          <button type="submit"
+            class="w-full bg-blue-700 text-white font-semibold py-2 px-4 rounded-md hover:bg-blue-800 transition duration-200">
+            Submit
+          </button>
+        </div>
+      </form>
+</div>
+   
+      <!-- footer  -->
+    
+    
+      <footer class="relative bg-gradient-to-r from-blue-700 to-blue-900 mt-10 h-full w-full py-5 ">
+        <div class="container flex flex-col items-center md:flex-row md:justify-center md:items-center">
+          <div class="flex flex-1 flex-wrap items-center justify-center md:justify-start  gap-12">
+            <img src="./imgs/logo-bookmark-white.png" alt="" />
+            <ul class="flex text-white uppercase gap-12 ">
+              <li class="cursor-pointer text-xs md:text-[16px]">Features</li>
+              <li class="cursor-pointer text-xs md:text-[16px]">Pricing</li>
+              <li class="cursor-pointer text-xs md:text-[16px]">Contact</li>
+            </ul>
+          </div>
+            <ul class="flex gap-10 mt-12 md:mt-0">
+            <li><i class="text-white text-4xl fab fa-instagram"></i></li>
+            <li><i class="text-white text-4xl fab fa-twitter"></i></li>
+            <li><i class="text-white text-4xl fab fa-x"></i></li>
+            <li><i class="text-white text-4xl fab fa-facebook-square"></i></li>
+          </ul>
+        </div>
+      </footer>
+  
+      <!-- JavaScript to toggle the mobile menu and logo visibility -->
+      <script>
+        const mobileToggle = document.getElementById('mobileToggle');
+        const mobileMenu = document.getElementById('mobileMenu');
+  
+        mobileToggle.addEventListener('click', () => {
+          // If the mobile menu is closed, expand it; if open, collapse it.
+          if (mobileMenu.classList.contains('max-h-0')) {
+            mobileMenu.classList.remove('max-h-0');
+            mobileMenu.classList.add('max-h-96');
+          } else {
+            mobileMenu.classList.remove('max-h-96');
+            mobileMenu.classList.add('max-h-0');
+          }
+        });
+      </script>
+  
+    </body>
+  </html>
