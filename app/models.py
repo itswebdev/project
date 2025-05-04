@@ -1,4 +1,6 @@
 from django.db import models
+import datetime
+from django.utils import timezone
 
 # Create your models here.
 
@@ -160,3 +162,25 @@ class Vehicle(models.Model):
     public=models.ForeignKey(Login,on_delete=models.CASCADE,null=True,blank=True)
     police=models.ForeignKey(Police,on_delete=models.CASCADE,null=True,blank=True)
     status=models.CharField(max_length=30,null=True,blank=True)
+
+class Product(models.Model):
+    prod_category=models.CharField(max_length=30)
+    prod_name=models.CharField(max_length=30)
+    quantity=models.IntegerField()
+    prod_description=models.TextField()
+    camp_id=models.ForeignKey(Login,on_delete=models.CASCADE,null=True,blank=True)
+
+class ProductUsage(models.Model):
+    current_date = models.DateTimeField(auto_now_add=True)
+    prod_quantity = models.TextField()
+    prod_id = models.ForeignKey(Product,on_delete=models.CASCADE,null=True,blank=True)
+    camp_id=models.ForeignKey(Login,on_delete=models.CASCADE,null=True,blank=True)
+
+
+class PasswordResetOTP(models.Model):
+    user = models.ForeignKey(Login, on_delete=models.CASCADE,null=True,blank=True)
+    otp = models.CharField(max_length=6)
+    created_at = models.DateTimeField(auto_now_add=True)
+
+    def is_valid(self):
+        return timezone.now() < self.created_at + datetime.timedelta(minutes=10)
