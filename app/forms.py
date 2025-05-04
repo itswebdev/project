@@ -159,5 +159,58 @@ class ChangePasswordForm(forms.Form):                   #      form for changing
     confirm_pass=forms.CharField(widget=forms.PasswordInput)
 
 
+products=[
+    ('','--select an option--'),
+    ('Cloths' , 'Cloths'),
+    ('Food items' , 'Food items'),
+    ('Medicines' , 'Medicines'),
+]
+
+class ProductForm(forms.ModelForm):
+
+    prod_category = forms.ChoiceField(
+        choices=products
+        # widget=forms.Select(attrs={'placeholder': 'Select a category'})
+    )
+
+    class Meta:
+        model = Product
+        fields = ['prod_category', 'prod_name', 'quantity', 'prod_description']
+        widgets = {
+            'prod_name': forms.TextInput(attrs={'placeholder': 'Enter product name'}),
+            'quantity': forms.NumberInput(attrs={'placeholder': 'Enter quantity'}),
+            'prod_description': forms.Textarea(attrs={'placeholder': 'Enter product description'}),
+        }
+
+class ProductUsageForm(forms.ModelForm):
+    class Meta:
+        model=ProductUsage
+        fields=['prod_quantity']
+
+
+class ReportSearchForm(forms.Form):
+    date = forms.DateInput(attrs={'class':'form-control','type':'date'})
+
+#  forgot password section
+
+class EmailForm(forms.Form):  
+    email = forms.EmailField()
+
+
+class OTPForm(forms.Form):
+    email = forms.EmailField()
+    otp = forms.CharField(max_length=6)
+
+
+class ResetPasswordForm(forms.Form):
+    new_password = forms.CharField(widget=forms.PasswordInput)
+    confirm_password = forms.CharField(widget=forms.PasswordInput)
+
+    def clean(self):
+        cleaned_data = super().clean()
+        if cleaned_data.get('new_password') != cleaned_data.get('confirm_password'):
+            raise forms.ValidationError("Passwords do not match.")
+
+
 class misscheck(forms.Form):
     pic=forms.ImageField()

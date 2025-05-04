@@ -121,6 +121,19 @@ urlpatterns = [
     path('VehicleList',views.VehicleList,name="VehicleList"),
     path('ComfirmPassCamp',views.ComfirmPassCamp,name="ComfirmPassCamp"),
 
+    path('AddProduct',views.AddProduct,name="AddProduct"),
+    path('ViewProduct',views.ViewProduct,name="ViewProduct"),
+    path('EditProduct/<int:id>',views.EditProduct,name="EditProduct"),
+    path('DeleteProduct/<int:id>',views.DeleteProduct,name="DeleteProduct"),
+    path('ProdUsage/<int:id>',views.ProdUsage,name="ProdUsage"),
+    path('MonthlyReport',views.MonthlyReport,name="MonthlyReport"),
+    path('PerDayReport',views.PerDayReport,name="PerDayReport"),
+
+    path('send_otp_view',views.send_otp_view,name="send_otp_view"),
+    path('verify_otp_view',views.verify_otp_view,name="verify_otp_view"),
+    path('reset_password_view',views.reset_password_view,name="reset_password_view"),
+    
+
     path("weather/", views.get_weather, name="weather"),
     path('misschecking/', views.misschecking, name='misschecking'),
     

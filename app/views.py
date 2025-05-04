@@ -4,7 +4,7 @@ from django.contrib import messages
 from .models import *
 from django.db.models import Q
 from django.urls import reverse
-
+import random
 
 # Create your views here.
 
@@ -1194,6 +1194,162 @@ def ComfirmPassStation(request):
         form=ChangePasswordForm()
 
     return render(request,'common/change_password.html',{'form':form})
+
+
+def AddProduct(request):
+    session_id=request.session['camp_id']
+    camp=get_object_or_404(Login,id=session_id)
+    if request.method == "POST":
+        form=ProductForm(request.POST)
+        if form.is_valid():
+            a=form.save(commit=False)
+            a.camp_id=camp
+            a.save()
+            messages.success(request,"Product added successfully.")
+
+    else:
+        form=ProductForm()
+    return render(request,'camp/add_prod.html',{'form':form})
+
+def ViewProduct(request):
+    session_id=request.session['camp_id']
+    camp=get_object_or_404(Login,id=session_id)
+    prods=Product.objects.filter(camp_id=camp)    
+    for prod in prods:
+        if prod.quantity <= 10:
+            messages.warning(request,f'{prod.prod_name} is running low.')
+    return render(request,'camp/prod_list.html',{'prods':prods})
+
+def EditProduct(request,id):
+    prod=get_object_or_404(Product,id=id)
+    if request.method == "POST":
+        form=ProductForm(request.POST,instance=prod)
+        if form.is_valid():
+            form.save()
+            return redirect('ViewProduct')
+    else:
+        form=ProductForm(instance=prod)
+    return render(request,'camp/edit_prod.html',{'form':form})
+
+def DeleteProduct(request,id):
+    prod=get_object_or_404(Product,id=id)
+    prod.delete()
+    return redirect('ViewProduct')
+
+def ProdUsage(request,id):
+    session_id=request.session['camp_id']
+    camp=get_object_or_404(Login,id=session_id)
+    prod=get_object_or_404(Product,id=id)
+    if request.method == "POST":
+        form=ProductUsageForm(request.POST)
+        if form.is_valid():
+            quantity = form.cleaned_data['prod_quantity']
+            prod.quantity -= int(quantity)
+            prod.save()
+            a=form.save(commit=False)
+            a.prod_id = prod
+            a.camp_id=camp
+            a.save()
+            return redirect('ViewProduct')
+    else:
+        form=ProductUsageForm()
+    
+    return render(request,'camp/prod_usage.html',{'form':form})
+            
+def MonthlyReport(request):
+    session_id=request.session['camp_id']
+    camp=get_object_or_404(Login,id=session_id)
+    current_month=datetime.now().month
+    current_year=datetime.now().year
+    months=ProductUsage.objects.filter(
+         Q(camp_id=camp) &
+         Q(current_date__icontains=current_month) &
+         Q(current_date__icontains=current_year)
+    )   # for filtering current month and year
+    return render(request,'camp/monthly_report.html',{'months':months})
+
+
+def PerDayReport(request):  
+    session_id=request.session.get('camp_id')
+    camp=get_object_or_404(Login,id=session_id)
+    if request.method == "POST":
+        query = request.POST.get('date')
+        days = ProductUsage.objects.filter( 
+            Q(current_date__icontains=query) &
+            Q(camp_id=camp) 
+        )
+        return render(request, 'camp/per_day_report.html', {'days': days}) 
+    else:
+        return render(request, 'camp/per_day_report.html')
+
+
+#    forgot password section
+
+def send_otp_view(request):
+    if request.method == 'POST':
+        form = EmailForm(request.POST)
+        if form.is_valid():
+            email = form.cleaned_data['email']
+            try:
+                user = Login.objects.get(email=email)
+                otp = str(random.randint(100000, 999999))
+                PasswordResetOTP.objects.create(user=user, otp=otp)
+                send_mail(
+                    'Your Password Reset OTP',
+                    f'Use this OTP to reset your password: {otp}',
+                    'dmsproject1234@gmail.com', 
+                    [email],
+                    fail_silently=False  # Enable error reporting
+
+                )
+                return redirect('verify_otp_view')
+            except Login.DoesNotExist:
+                form.add_error('email', 'No user with this email.')
+    else:
+        form = EmailForm()
+    return render(request, 'common/send_otp.html', {'form': form})
+
+def verify_otp_view(request):
+    if request.method == 'POST':
+        form = OTPForm(request.POST)
+        if form.is_valid():
+            email = form.cleaned_data['email']
+            otp_input = form.cleaned_data['otp']
+            try:
+                user = Login.objects.get(email=email)
+                otp_record = PasswordResetOTP.objects.filter(user=user, otp=otp_input).order_by('-created_at').first()
+                if otp_record and otp_record.is_valid():
+                    request.session['reset_user_id'] = user.id
+                    return redirect('reset_password_view')  # URL for password reset form
+                else:
+                    form.add_error('otp', 'Invalid or expired OTP.')
+            except Login.DoesNotExist:
+                form.add_error('email', 'No user with this email.')
+    else:
+        form = OTPForm()
+    return render(request, 'common/verify_otp.html', {'form': form})
+
+
+def reset_password_view(request):
+    user_id = request.session.get('reset_user_id')
+    if not user_id:
+        return redirect('send_otp')
+
+    if request.method == 'POST':
+        form = ResetPasswordForm(request.POST)
+        if form.is_valid():
+            user = Login.objects.get(id=user_id)
+            user.password = form.cleaned_data['new_password']          # make_password(form.cleaned_data['new_password'])
+            user.save()
+            del request.session['reset_user_id']
+            return redirect('UserLogin')
+    else:
+        form = ResetPasswordForm()
+    return render(request, 'common/reset_password.html', {'form': form})
+
+
+
+#            API and alogrithm starts from here
 
 API_KEY = "7c8f76a84fb1b06e3990c51bedf0a2fa"
 

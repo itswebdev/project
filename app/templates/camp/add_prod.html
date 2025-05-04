@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Add products</title>
+    <style>
+        .main{
+            display: flex;
+            justify-content: center;
+            margin-top: 100px;
+        }
+        .form{
+            width: 300px;
+            padding: 10px 0 ;
+            gap: 20px;
+            display: flex;
+            flex-direction: column;
+        }
+        
+    </style>
+</head>
+<body>
+    <div class="main">
+        <div class="right"></div>
+        <div class="left"> 
+            <!-- <form method="post" class="form">
+                {% csrf_token %}
+                {{form.as_table}}
+                <button type="submit">submit</button>
+            </form> -->
+            <form method="post" class="form">
+                {% csrf_token %}
+                <!-- <input type="hidden" name="csrfmiddlewaretoken" value="0RTgUfsfWwLCl60SeCowPuFCtvqvfhteTeuwz3rzd49ogmHs1q99WQqMV4nhLbJj"> -->
+                <select name="prod_category" required="" id="id_prod_category">
+                    <option value="" selected="">--select an option--</option>
+            
+                    <option value="Cloths">Cloths</option>
+            
+                    <option value="Food items">Food items</option>
+            
+                    <option value="Medicines">Medicines</option>
+            
+                </select>
+                <input type="text" name="prod_name" placeholder="Enter product name" maxlength="30" required="" id="id_prod_name">
+      
+                <input type="number" name="quantity" placeholder="Enter quantity" required="" id="id_quantity">
+                
+                <textarea name="prod_description" cols="40" rows="10" placeholder="Enter product description" required="" id="id_prod_description"></textarea>
+                <button type="submit">submit</button>
+            </form>
+        </div>
+    </div>
+</body>
+</html>           

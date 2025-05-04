@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <table border="1 ">
+        <tr>
+            <th>Product Category</th>
+            <th>Product Name</th>
+            <th>Date of Usage</th>
+            <th>Quantity Used</th>
+        </tr>
+        {% for mo in months %}
+        <tr>
+            <td>{{ mo.prod_id.prod_category }}</td>
+            <td>{{ mo.prod_id.prod_name }}</td>
+            <td>{{ mo.current_date }}</td>
+            <td>{{ mo.prod_quantity }}</td>
+        </tr>
+        {% endfor %}
+    </table>
+</body>
+</html>
