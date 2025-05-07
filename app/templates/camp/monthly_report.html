@@ -1,26 +1,115 @@
+{% load static %}
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
-</head>
-<body>
-    <table border="1 ">
-        <tr>
-            <th>Product Category</th>
-            <th>Product Name</th>
-            <th>Date of Usage</th>
-            <th>Quantity Used</th>
-        </tr>
-        {% for mo in months %}
-        <tr>
-            <td>{{ mo.prod_id.prod_category }}</td>
-            <td>{{ mo.prod_id.prod_name }}</td>
-            <td>{{ mo.current_date }}</td>
-            <td>{{ mo.prod_quantity }}</td>
-        </tr>
-        {% endfor %}
+  <head>
+    <meta charset="utf-8" />
+    <meta content="width=device-width, initial-scale=1.0" name="viewport" />
+    <title>Camp</title>
+    <meta name="description" content="" />
+    <meta name="keywords" content="" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css" integrity="sha512-Evv84Mr4kqVGRNSgIGL/F/aIDqQb7xQ2vcrdIwxfjThSH8CSR7PBEakCr51Ck+w+/U6swU2Im1vVX0SVk9ABhg==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link href="{% static "output.css" %}" rel="stylesheet">
+
+  </head>
+
+
+  <body class="font-Poppins min-h-[100vh]">
+
+   <!-- header -->
+   <header class="relative">
+    <nav class="container flex items-center py-4 relative">
+      <!-- Logo -->
+      <img id="navLogo" class="w-[50px] transition-all duration-300" src="{% static 'logo.png' %}" alt="Logo">
+      <div class="py-1">
+        <h2 class="text-2xl font-Inter font-extrabold text-blue-800">Disaster management System</h2>
+      </div>
+
+      <!-- Desktop Navigation (visible on sm and up) -->
+      <ul class="hidden sm:flex flex-1 justify-end items-center gap-12 text-bookmark-blue uppercase text-xs md:text-[16px]">
+        <li class="cursor-pointer">
+          <a href="{% url 'CampHome' %}">Home</a>
+        </li>
+        <li class="cursor-pointer">
+          <a href="{% url 'EditCamp' %}">Profile</a>
+        </li>
+        <li>
+          <a href="{% url 'Logout' %}">
+            <button class="cursor-pointer bg-gradient-to-r from-blue-700 to-blue-900 rounded-md px-4 py-2 text-bookmark-white">
+              Logout
+            </button>
+          </a>
+        </li>
+      </ul>
+
+      <!-- Mobile Toggle Icon (visible only on mobile) -->
+      <div id="mobileToggle" class="flex sm:hidden flex-1 justify-end cursor-pointer z-50">
+        <i class="text-2xl fas fa-bars"></i>
+      </div>
+    </nav>
+  </header>
+
+  <!-- Mobile Navigation Drawer -->
+  <!-- 
+    The mobile menu is fixed with a top offset (here, top-16, adjust as needed to match your header height)
+    It starts with max-h-0 (hidden) and expands to max-h-96 when toggled.
+  -->
+  <div id="mobileMenu"
+       class="sm:hidden fixed top-16 left-0 right-0 bg-white overflow-hidden transition-all duration-300 max-h-0 z-40">
+    <ul class="flex flex-col items-center gap-4 p-4">
+      <li>
+        <a href="{% url 'CampHome' %}" class="block py-2">Home</a>
+      </li>
+      <li>
+        <a href="{% url 'EditCamp' %}" class="block py-2">Profile</a>
+      </li>
+      <li>
+        <a href="{% url 'Logout' %}" class="block py-2">Logout</a>
+      </li>
+    </ul>
+  </div>
+
+<div class="container ">
+    <table class="table-auto w-full  border-collapse border border-gray-300 shadow-md rounded-lg">
+        <thead class="bg-blue-600 text-white">
+            <tr>
+                <th class="border border-gray-300 px-4 py-2 text-left">Product Category</th>
+                <th class="border border-gray-300 px-4 py-2 text-left">Product Name</th>
+                <th class="border border-gray-300 px-4 py-2 text-left">Date of Usage</th>
+                <th class="border border-gray-300 px-4 py-2 text-left">Quantity Used</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for mo in months %}
+            <tr class="odd:bg-white even:bg-gray-100 hover:bg-blue-100">
+                <td class="border border-gray-300 px-4 py-2">{{ mo.prod_id.prod_category }}</td>
+                <td class="border border-gray-300 px-4 py-2 capitalize">{{  mo.prod_id.prod_name }}</td>
+                <td class="border border-gray-300 px-4 py-2">{{ mo.current_date}}</td>
+                <td class="border border-gray-300 px-4 py-2">{{ mo.prod_quantity}}</td>
+            </tr>
+            {% empty %}
+            <tr>
+                <td colspan="4" class="text-center text-gray-500 py-4">No data available</td>
+            </tr>
+            {% endfor %}
+        </tbody>
     </table>
-</body>
+</div>
+    <!-- JavaScript to toggle the mobile menu and logo visibility -->
+    <script>
+      const mobileToggle = document.getElementById('mobileToggle');
+      const mobileMenu = document.getElementById('mobileMenu');
+
+      mobileToggle.addEventListener('click', () => {
+        // If the mobile menu is closed, expand it; if open, collapse it.
+        if (mobileMenu.classList.contains('max-h-0')) {
+          mobileMenu.classList.remove('max-h-0');
+          mobileMenu.classList.add('max-h-96');
+        } else {
+          mobileMenu.classList.remove('max-h-96');
+          mobileMenu.classList.add('max-h-0');
+        }
+      });
+    </script>
+
+  </body>
 </html>

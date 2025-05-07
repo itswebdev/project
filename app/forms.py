@@ -91,6 +91,7 @@ CHOICES = [
     ('Cooking', 'Cooking'),
     ('Cleaning', 'Cleaning'),
     ('Cloth collecting', 'Cloth collecting'),
+    ('Survey', 'Survey')
 ]
 
 class DutyForm(forms.ModelForm):

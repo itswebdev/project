@@ -5,7 +5,7 @@ from .models import *
 from django.db.models import Q
 from django.urls import reverse
 import random
-import datetime
+from datetime import datetime
 from .utils import get_user_counts_context
 from django.db.models import Count
 from django.core.mail import send_mail
@@ -1387,6 +1387,8 @@ def reset_password_view(request):
 
 
 #            API and alogrithm starts from here
+
+import requests
 
 API_KEY = "7c8f76a84fb1b06e3990c51bedf0a2fa"
 

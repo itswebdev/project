@@ -29,8 +29,11 @@
                               <td>{{need.needs}}</td>
                               <td>{{need.current_date}}</td>
                               <td>{{need.status}}</td>
+                              {% if need.status != "approved" and need.status != "rejected" %}
                               <td><button class="btn btn-primary"><a href="{% url 'SetCampNeedStatus' need.id %}"  style="color: white;text-decoration: none;">Remarks</a></button></td>
                             </tr>
+                              {% endif %}
+                              
                             {% endfor %}
                         </tbody>
                       </table>

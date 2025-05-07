@@ -1,17 +1,32 @@
+{% load static %}
 <!DOCTYPE html>
 <html lang="en">
   <head>
     <title>Complaint</title>
+    <link href="{% static "output.css" %}" rel="stylesheet">
+
   </head>
   <body>
-    <form method="post">
+    <form method="post" class="max-w-xl mx-auto p-6 bg-white rounded-lg shadow-md space-y-6">
       {% csrf_token %}
+    
       <div>
-        <h2>Subject : {{complaint.complaint_sub}}</h2>
-        <p>{{complaint.complaint}}</p>
-        <p>{{form.reply}}</p>
+        <h2 class="text-xl font-semibold text-gray-800 mb-2">Subject: <span class="text-gray-700">{{complaint.complaint_sub}}</span></h2>
+        <p class="text-gray-600 mb-4">{{complaint.complaint}}</p>
+    
+        <label for="id_reply" class="block text-gray-700 font-medium mb-2">Your Reply</label>
+        <textarea name="reply" id="id_reply" cols="40" rows="6" maxlength="500" required
+          class="w-full p-3 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 resize-none">
+        {% if form.reply.value %}
+          {{form.reply.value}}
+        {% endif %}
+        </textarea>
       </div>
-      <button type="submit">Submit</button>
+    
+      <button type="submit"
+        class="bg-blue-600 text-white px-6 py-2 rounded-md hover:bg-blue-700 transition duration-200">
+        Submit
+      </button>
     </form>
   </body>
 </html>
